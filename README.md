@@ -33,15 +33,18 @@ dist/
 
 ## Exportacao
 
-No builder, clique em **Exportar** para baixar um ZIP pronto para hospedagem:
+No topo do builder, preencha **Nome da pagina**. Esse valor vira o nome da pasta exportada e tambem o slug sugerido para hospedagem.
+
+Depois, clique em **Exportar pasta** e escolha onde salvar a landing. O builder cria uma pasta com:
 
 ```txt
-index.html
-styles.css
-assets/
+nome-da-pagina/
+  index.html
+  styles.css
+  assets/
 ```
 
-Envie e extraia esses arquivos dentro do `public_html/` da Hostinger.
+Envie essa pasta inteira para `public_html/` na Hostinger para publicar em `https://dominio.com/nome-da-pagina/`, sem passar pelo WordPress ou Elementor.
 
 ## Estrutura
 
@@ -89,6 +92,6 @@ Assets padrao ficam em:
 public/assets/defaults/
 ```
 
-No JSON e nos campos de imagem, use caminhos relativos a `assets/` ou envie arquivos pelo proprio builder. Durante a exportacao, as imagens usadas sao incluidas no ZIP.
+No JSON e nos campos de imagem, use caminhos relativos a `assets/` ou envie arquivos pelo proprio builder. Durante a exportacao, as imagens usadas sao incluidas na pasta exportada.
 
 Depoimentos nao usam fotos, nomes ou avatares padrao. A landing so mostra foto, nome ou data quando esses campos forem preenchidos no editor da landing.

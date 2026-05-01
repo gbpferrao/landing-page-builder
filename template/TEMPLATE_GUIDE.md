@@ -2,15 +2,16 @@
 
 ## Builder
 
-Abra `index.html` para usar o builder estatico. Edite por slots ou cole um JSON completo no formato canonico do projeto. Clique em **Exportar** para baixar:
+Abra `index.html` para usar o builder estatico. Edite por slots ou cole um JSON completo no formato canonico do projeto. Preencha **Nome da pagina** no topo e clique em **Exportar pasta** para salvar:
 
 ```txt
-index.html
-styles.css
-assets/
+nome-da-pagina/
+  index.html
+  styles.css
+  assets/
 ```
 
-Esses arquivos sao o pacote final da landing page.
+Essa pasta e o pacote final da landing page.
 
 ## Formato JSON
 
@@ -68,11 +69,14 @@ Depoimentos nao tem nomes, fotos ou avatares padrao. O editor permite preencher 
 
 ## Publicacao
 
-Extraia o ZIP exportado dentro do `public_html/`:
+Envie a pasta exportada para dentro de `public_html/`:
 
 ```txt
 public_html/
-  index.html
-  styles.css
-  assets/
+  nome-da-pagina/
+    index.html
+    styles.css
+    assets/
 ```
+
+A landing fica disponivel em `/nome-da-pagina/` e nao precisa passar pelo WordPress ou Elementor.

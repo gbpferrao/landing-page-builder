@@ -6,16 +6,17 @@ import PreviewCanvas from "./PreviewCanvas.jsx";
 import Button from "../design-system/Button.jsx";
 import Dialog from "../design-system/Dialog.jsx";
 import { Toast, ToastViewport } from "../design-system/Toast.jsx";
-import { downloadLandingZip } from "../lib/buildZip.js";
+import { exportLandingFolder, sanitizeFolderName } from "../lib/exportLandingFolder.js";
 
-export function BuilderShell({ onProjectChange, previewHtml, project }) {
+export function BuilderShell({ onPageNameChange, onProjectChange, pageName, previewHtml, project }) {
   const [helpOpen, setHelpOpen] = useState(false);
   const [exportStatus, setExportStatus] = useState("ready");
+  const folderName = sanitizeFolderName(pageName);
 
   const handleExport = async () => {
     setExportStatus("working");
     try {
-      await downloadLandingZip(project);
+      await exportLandingFolder(project, pageName);
       setExportStatus("done");
     } catch {
       setExportStatus("error");
@@ -24,7 +25,13 @@ export function BuilderShell({ onProjectChange, previewHtml, project }) {
 
   return (
     <div className="builder-shell">
-      <BuilderHeader exportStatus={exportStatus} onExport={handleExport} onHelp={() => setHelpOpen(true)} />
+      <BuilderHeader
+        exportStatus={exportStatus}
+        pageName={pageName}
+        onExport={handleExport}
+        onHelp={() => setHelpOpen(true)}
+        onPageNameChange={onPageNameChange}
+      />
       <main className="builder-frame">
         <BuilderSidebar
           project={project}
@@ -73,16 +80,16 @@ export function BuilderShell({ onProjectChange, previewHtml, project }) {
               <UploadCloud size={18} aria-hidden="true" />
               <div>
                 <h3>Publicar em um slug na Hostinger</h3>
-                <p>Use o ZIP como uma pagina estatica separada do WordPress ou Elementor.</p>
+                <p>Exporte uma pasta estatica separada do WordPress ou Elementor.</p>
               </div>
             </div>
             <ol>
-              <li>Clique em Exportar para baixar o ZIP com index.html, styles.css e assets.</li>
+              <li>Defina o Nome da pagina no topo. Ele vira a pasta exportada, como {folderName}.</li>
+              <li>Clique em Exportar pasta e escolha onde salvar os arquivos no computador.</li>
               <li>No painel da Hostinger, abra Gerenciador de Arquivos e entre em public_html.</li>
-              <li>Crie uma pasta com o slug da landing, por exemplo juros-abusivos.</li>
-              <li>Entre nessa pasta, envie o ZIP e extraia ali dentro, sem passar pelo WordPress.</li>
-              <li>Confirme que o slug contem index.html, styles.css e assets diretamente na pasta.</li>
-              <li>Abra /seu-slug/ em uma aba anonima e teste botoes, imagens, mobile e tags.</li>
+              <li>Envie a pasta exportada inteira para public_html, sem passar pelo WordPress.</li>
+              <li>Confirme que /{folderName}/ contem index.html, styles.css e assets diretamente na pasta.</li>
+              <li>Abra /{folderName}/ em uma aba anonima e teste botoes, imagens, mobile e tags.</li>
             </ol>
             <div className="help-note">
               <Download size={16} aria-hidden="true" />
@@ -95,8 +102,8 @@ export function BuilderShell({ onProjectChange, previewHtml, project }) {
         {exportStatus === "done" ? (
           <Toast
             type="success"
-            title="ZIP exportado"
-            description="O pacote contem index.html, styles.css e assets para publicacao."
+            title="Pasta exportada"
+            description={`A pasta ${folderName} contem index.html, styles.css e assets para publicacao.`}
             duration={3500}
             onClose={() => setExportStatus("ready")}
           />
@@ -105,7 +112,7 @@ export function BuilderShell({ onProjectChange, previewHtml, project }) {
           <Toast
             type="error"
             title="Falha ao exportar"
-            description="Confira se os assets referenciados existem e tente novamente."
+            description="Use Chrome ou Edge atualizado e confirme a permissao para salvar a pasta."
             onClose={() => setExportStatus("ready")}
           />
         ) : null}

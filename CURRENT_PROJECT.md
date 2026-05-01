@@ -4,17 +4,18 @@ Last updated: 2026-05-01
 
 ## Product
 
-This repository is a static React landing page builder. It lets a user configure a legal-services landing page through structured editor fields, preview the result inside the builder, generate AI copy prompts, paste back copy JSON, upload images, configure tracking tags, and export a ready-to-host landing ZIP.
+This repository is a static React landing page builder. It lets a user configure a legal-services landing page through structured editor fields, preview the result inside the builder, generate AI copy prompts, paste back copy JSON, upload images, configure tracking tags, name the page folder, and export a ready-to-host landing folder.
 
-The builder itself is published as a Vite app. The exported landing is a separate static package containing:
+The builder itself is published as a Vite app. The exported landing is a separate static folder named from the header page name field and containing:
 
 ```txt
-index.html
-styles.css
-assets/
+page-name/
+  index.html
+  styles.css
+  assets/
 ```
 
-That package is intended for direct upload/extraction into a traditional host such as Hostinger `public_html/`.
+That folder is intended for direct upload into a traditional host such as Hostinger `public_html/`.
 
 ## Main Functionalities
 
@@ -23,7 +24,7 @@ That package is intended for direct upload/extraction into a traditional host su
 - Canonical JSON editor for full project-level edits and recovery.
 - Copywriting prompt helper that sends only copy-safe fields and preserves identity/image fields in testimonials.
 - Image upload support through browser blob URLs while editing.
-- ZIP export that rewrites uploaded blob URLs into `assets/uploads/...` paths and includes referenced local assets.
+- Folder export that rewrites uploaded blob URLs into `assets/uploads/...` paths and includes referenced local assets.
 - Tracking configuration for GA4, Google Ads, Meta Pixel, pageview, video click/watch, and WhatsApp clicks.
 - Review/testimonial identity is editor-owned: no default names, no default photos, and no fallback avatar is rendered when identity fields are blank.
 
@@ -64,7 +65,7 @@ defaultProject
   -> builder/editor fields
   -> live preview
   -> exportHtml
-  -> buildLandingZip
+  -> exportLandingFolder
 ```
 
 Each layer reflects the same shape:
@@ -77,7 +78,7 @@ Each layer reflects the same shape:
 - `src/preview/LandingPage.jsx` composes all landing sections from the project object.
 - `src/sections/*` owns section-specific preview rendering and schema.
 - `src/preview/exportHtml.jsx` renders the landing to static HTML and injects CSS/runtime/tracking.
-- `src/lib/buildZip.js` packages HTML, CSS, local assets, and uploaded assets into the downloadable landing ZIP.
+- `src/lib/exportLandingFolder.js` writes HTML, CSS, local assets, and uploaded assets into the named landing folder.
 
 The important design invariant is that the editor, preview, JSON, and export all consume the same project object. When this invariant holds, the exported page should match the preview and should not invent data outside the editor fields.
 
@@ -98,7 +99,7 @@ On export, uploaded blob assets are resolved from the in-memory object URL regis
 assets/uploads/
 ```
 
-Upload filenames are now made unique inside the ZIP, so two different edited fields using files with the same filename do not overwrite each other after extraction.
+Upload filenames are made unique inside the exported folder, so two different edited fields using files with the same filename do not overwrite each other.
 
 ## Git State
 
@@ -126,20 +127,21 @@ Current relationship:
 main...origin/main
 ```
 
-Latest commits:
+Latest commits before this update:
 
 ```txt
+2389c41 Update hosting help for slug publishing
+99e9c2f Document project state and fix review export assets
 946379e Add GitHub Pages deploy workflow
-c295c01 Initial landing page builder
 ```
 
-Current local changes are uncommitted:
+Current export-related implementation:
 
 ```txt
-M src/lib/buildZip.js
-M src/preview/landing-page.css
-M src/sections/testimonials/TestimonialsPreview.jsx
+src/app/App.jsx
+src/builder/BuilderHeader.jsx
+src/builder/BuilderShell.jsx
+src/lib/exportLandingFolder.js
 ```
 
-Those changes fix uploaded asset path collisions during export and remove default/fallback review avatars from the testimonial preview/export.
-
+The header owns the page/folder name, `BuilderShell` passes it into export, and `exportLandingFolder.js` writes the static landing folder directly through the browser File System Access API. The previous ZIP writer was removed.

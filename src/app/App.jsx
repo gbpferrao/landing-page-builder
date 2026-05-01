@@ -8,12 +8,15 @@ const initialProject = normalizeProject(defaultProject);
 
 export default function App() {
   const [project, setProject] = useState(initialProject);
+  const [pageName, setPageName] = useState("landing-page");
   const previewHtml = useMemo(() => exportHtml(project), [project]);
 
   return (
     <BuilderShell
       project={project}
+      pageName={pageName}
       onProjectChange={setProject}
+      onPageNameChange={setPageName}
       previewHtml={previewHtml}
     />
   );
