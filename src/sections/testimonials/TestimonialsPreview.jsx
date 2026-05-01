@@ -18,11 +18,7 @@ export function TestimonialsPreview({ section }) {
               {(content.reviews || []).map((review, index) => (
                 <article key={`${review.name || "review"}-${index}`} className="review-card">
                   <div className="review-topline">
-                    <ReviewAvatar review={review} />
-                    <div>
-                      <h3>{review.name || "Cliente"}</h3>
-                      {review.date ? <p className="review-date">{review.date}</p> : null}
-                    </div>
+                    <ReviewIdentity review={review} />
                     <span className="review-google">
                       <img className="google-logo-img" src={previewAsset(googleLogo)} alt="Google" />
                     </span>
@@ -51,23 +47,25 @@ export function TestimonialsPreview({ section }) {
   );
 }
 
-function ReviewAvatar({ review }) {
-  if (review.image) {
-    return <img className="review-avatar" src={previewAsset(review.image)} alt={review.name || "Cliente"} />;
+function ReviewIdentity({ review }) {
+  const hasIdentity = Boolean(review.image || review.name || review.date);
+  if (!hasIdentity) {
+    return null;
   }
 
-  const initials = getInitials(review.name);
   return (
-    <span className="review-avatar review-avatar-fallback" aria-hidden="true">
-      {initials || <LucideIcon name="user" />}
-    </span>
+    <div className="review-identity">
+      {review.image ? (
+        <img className="review-avatar" src={previewAsset(review.image)} alt={review.name ? `Foto de ${review.name}` : ""} />
+      ) : null}
+      {review.name || review.date ? (
+        <div>
+          {review.name ? <h3>{review.name}</h3> : null}
+          {review.date ? <p className="review-date">{review.date}</p> : null}
+        </div>
+      ) : null}
+    </div>
   );
-}
-
-function getInitials(name = "") {
-  const parts = String(name).trim().split(/\s+/).filter(Boolean);
-  if (!parts.length) return "";
-  return parts.slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
 }
 
 export default TestimonialsPreview;

@@ -91,4 +91,4 @@ public/assets/defaults/
 
 No JSON e nos campos de imagem, use caminhos relativos a `assets/` ou envie arquivos pelo proprio builder. Durante a exportacao, as imagens usadas sao incluidas no ZIP.
 
-Depoimentos nao usam fotos ou nomes padrao. Sem foto, a landing mostra um icone de usuario; com nome e sem foto, mostra as iniciais; com foto enviada, usa a foto.
+Depoimentos nao usam fotos, nomes ou avatares padrao. A landing so mostra foto, nome ou data quando esses campos forem preenchidos no editor da landing.

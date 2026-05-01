@@ -86,21 +86,26 @@ function assetEntry(value) {
 function collectUploadedAssets(project) {
   const values = [];
   collectStrings(project, values);
-  const seen = new Set();
-  return values
+  const entriesByUrl = new Map();
+  const usedZipPaths = new Set();
+
+  values
     .filter((value) => value.startsWith("blob:"))
-    .map((url, index) => {
+    .forEach((url, index) => {
+      if (entriesByUrl.has(url)) return;
+
       const file = getManagedObjectUrlFile(url);
-      if (!file) return null;
+      if (!file) return;
+
       const name = sanitizeFileName(file.name || `upload-${index + 1}.png`);
-      return { url, file, zipPath: `assets/uploads/${name}` };
-    })
-    .filter(Boolean)
-    .filter((entry) => {
-      if (seen.has(entry.url)) return false;
-      seen.add(entry.url);
-      return true;
+      const zipPath = makeUniqueUploadPath(name, usedZipPaths);
+      const entry = { url, file, zipPath };
+
+      entriesByUrl.set(url, entry);
+      usedZipPaths.add(zipPath);
     });
+
+  return Array.from(entriesByUrl.values());
 }
 
 function rewriteHtmlAssetPaths(html, uploadEntries = []) {
@@ -119,6 +124,22 @@ function sanitizeFileName(value) {
     .replace(/[^a-zA-Z0-9._-]+/g, "-")
     .replace(/^-+|-+$/g, "")
     || "upload.png";
+}
+
+function makeUniqueUploadPath(fileName, usedZipPaths) {
+  const safeName = fileName || "upload.png";
+  const dotIndex = safeName.lastIndexOf(".");
+  const stem = dotIndex > 0 ? safeName.slice(0, dotIndex) : safeName;
+  const extension = dotIndex > 0 ? safeName.slice(dotIndex) : "";
+  let zipPath = `assets/uploads/${safeName}`;
+  let suffix = 2;
+
+  while (usedZipPaths.has(zipPath)) {
+    zipPath = `assets/uploads/${stem}-${suffix}${extension}`;
+    suffix += 1;
+  }
+
+  return zipPath;
 }
 
 async function fetchBytes(url) {

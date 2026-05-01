@@ -585,6 +585,12 @@ h3 { font-size: 20px; }
   margin-bottom: 16px;
   min-width: 0;
 }
+.review-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
 .review-avatar {
   width: 42px;
   height: 42px;
@@ -592,11 +598,6 @@ h3 { font-size: 20px; }
   object-fit: cover;
   flex: 0 0 42px;
   background: #8092a0;
-}
-.review-avatar-fallback {
-  display: inline-grid;
-  place-items: center;
-  font-weight: 800;
 }
 .review-card h3 {
   color: var(--white);

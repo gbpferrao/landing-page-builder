@@ -64,7 +64,7 @@ public/assets/defaults/
 public/assets/defaults/team/
 ```
 
-Depoimentos nao tem nomes ou fotos padrao. O editor permite preencher nomes e enviar fotos; se nao houver foto, a landing usa iniciais ou um icone de usuario.
+Depoimentos nao tem nomes, fotos ou avatares padrao. O editor permite preencher nomes e enviar fotos; se esses campos ficarem vazios, a landing nao inventa fallback visual ou identidade.
 
 ## Publicacao
 
