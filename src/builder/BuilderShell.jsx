@@ -72,20 +72,21 @@ export function BuilderShell({ onProjectChange, previewHtml, project }) {
             <div className="help-hosting-header">
               <UploadCloud size={18} aria-hidden="true" />
               <div>
-                <h3>Publicar na Hostinger</h3>
-                <p>Use o ZIP exportado pelo builder como pacote final da landing.</p>
+                <h3>Publicar em um slug na Hostinger</h3>
+                <p>Use o ZIP como uma pagina estatica separada do WordPress ou Elementor.</p>
               </div>
             </div>
             <ol>
               <li>Clique em Exportar para baixar o ZIP com index.html, styles.css e assets.</li>
-              <li>No painel da Hostinger, abra Gerenciador de Arquivos do dominio.</li>
-              <li>Entre em public_html, envie o ZIP e use Extrair para soltar os arquivos nessa pasta.</li>
-              <li>Confirme que index.html ficou direto em public_html, junto com styles.css e a pasta assets.</li>
-              <li>Abra o dominio em uma aba anonima e teste os botoes, imagens, mobile e tags configuradas.</li>
+              <li>No painel da Hostinger, abra Gerenciador de Arquivos e entre em public_html.</li>
+              <li>Crie uma pasta com o slug da landing, por exemplo juros-abusivos.</li>
+              <li>Entre nessa pasta, envie o ZIP e extraia ali dentro, sem passar pelo WordPress.</li>
+              <li>Confirme que o slug contem index.html, styles.css e assets diretamente na pasta.</li>
+              <li>Abra /seu-slug/ em uma aba anonima e teste botoes, imagens, mobile e tags.</li>
             </ol>
             <div className="help-note">
               <Download size={16} aria-hidden="true" />
-              <span>Se ja existir uma pagina antiga, mova ou substitua os arquivos antigos antes de testar a nova landing.</span>
+              <span>Nao extraia direto em public_html se o WordPress usa a home. Se ja houver uma pagina do WordPress com o mesmo slug, renomeie uma delas antes de publicar.</span>
             </div>
           </section>
         </div>
