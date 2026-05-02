@@ -48,6 +48,7 @@ export function PreviewCanvas({ previewHtml }) {
     win.addEventListener("scroll", onScroll, { passive: true });
     cleanupScrollListenerRef.current = () => win.removeEventListener("scroll", onScroll);
 
+    restoreScroll();
     requestAnimationFrame(() => {
       restoreScroll();
       requestAnimationFrame(restoreScroll);

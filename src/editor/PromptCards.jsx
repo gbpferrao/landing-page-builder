@@ -1,7 +1,7 @@
 import { Clipboard, Wand2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import Button from "../design-system/Button.jsx";
-import Card, { CardContent, CardDescription, CardHeader, CardTitle } from "../design-system/Card.jsx";
+import Card, { CardContent, CardHeader, CardTitle } from "../design-system/Card.jsx";
 import Field from "../design-system/Field.jsx";
 import { getPath, setPath } from "../domain/projectPaths.js";
 
@@ -61,34 +61,26 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
       <CardHeader className="mb-2">
         <div>
           <CardTitle className="text-sm">Fluxo JSON de copywriting</CardTitle>
-          <CardDescription className="text-xs leading-5">
-            Siga os passos em ordem: instrucao, prompt, colar retorno e aplicar.
-          </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
         <div className="prompt-flow">
-          <PromptStep number="1" title="Instrucao">
+          <PromptStep number="1">
             <Field
               as="textarea"
-              label="Instrucao geral"
+              label="Instrucao"
               value={instruction}
-              inputClassName="min-h-20"
+              inputClassName="min-h-14"
               placeholder="Ex.: foco em inventario, tom acolhedor, publico de alto patrimonio, CTA para WhatsApp."
-              help="Esta instrucao entra no prompt junto com o JSON compacto."
               onChange={(event) => setInstruction(event.target.value)}
             />
           </PromptStep>
 
-          <PromptStep number="2" title="Copiar prompt">
+          <PromptStep number="2">
             <div className="prompt-options-row">
               {prompts.map((prompt, index) => (
                 <div key={prompt.id} className="prompt-option">
-                  <div>
-                    <p>{index === 0 ? "Prompt A" : "Prompt B"}</p>
-                    <h4>{prompt.title}</h4>
-                    <span>{prompt.description}</span>
-                  </div>
+                  <strong>{index === 0 ? "Prompt A" : "Prompt B"}</strong>
                   <Button size="sm" variant="secondary" icon={Clipboard} onClick={() => copyPrompt(prompt.body)}>
                     Copiar
                   </Button>
@@ -97,23 +89,20 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
             </div>
           </PromptStep>
 
-          <PromptStep number="3" title="Colar JSON">
+          <PromptStep number="3">
             <Field
               as="textarea"
-              label="Resposta da IA"
+              label="Colar JSON"
               value={draft}
-              inputClassName="min-h-20 font-mono text-xs"
+              inputClassName="min-h-16 font-mono text-xs"
               help={status}
               onChange={(event) => setDraft(event.target.value)}
             />
           </PromptStep>
 
-          <PromptStep number="4" title="Aplicar">
+          <PromptStep number="4">
             <div className="prompt-apply-row">
-              <div>
-                <p>Atualiza somente copy e icones.</p>
-                <span>Nomes, fotos, datas, links e tracking ficam preservados.</span>
-              </div>
+              <p>Aplicar retorno JSON</p>
               <Button icon={Wand2} onClick={applyDraft}>
                 Aplicar copywriting
               </Button>
@@ -125,13 +114,10 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
   );
 }
 
-function PromptStep({ children, number, title }) {
+function PromptStep({ children, number }) {
   return (
     <section className="prompt-step">
-      <div className="prompt-step-header">
-        <span>{number}</span>
-        <h3>{title}</h3>
-      </div>
+      <span className="prompt-step-number">{number}</span>
       <div className="prompt-step-body">{children}</div>
     </section>
   );

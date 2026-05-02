@@ -14,10 +14,12 @@ export default function App() {
   const [projects, setProjects] = useState([]);
   const [activeProjectId, setActiveProjectId] = useState("");
   const [project, setProject] = useState(initialProject);
+  const [previewProject, setPreviewProject] = useState(initialProject);
   const [pageName, setPageName] = useState("landing-page");
   const [view, setView] = useState("projects");
   const saveTimerRef = useRef(null);
-  const previewHtml = useMemo(() => exportHtml(project), [project]);
+  const previewTimerRef = useRef(null);
+  const previewHtml = useMemo(() => exportHtml(previewProject), [previewProject]);
 
   useEffect(() => {
     refreshProjects();
@@ -25,8 +27,18 @@ export default function App() {
 
   useEffect(() => () => {
     if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current);
+    if (previewTimerRef.current) window.clearTimeout(previewTimerRef.current);
     revokeAllObjectUrls();
   }, []);
+
+  useEffect(() => {
+    if (view !== "editor") return;
+    if (previewTimerRef.current) window.clearTimeout(previewTimerRef.current);
+
+    previewTimerRef.current = window.setTimeout(() => {
+      setPreviewProject(project);
+    }, 3000);
+  }, [project, view]);
 
   useEffect(() => {
     if (!activeProjectId || view !== "editor") return;
@@ -67,7 +79,9 @@ export default function App() {
     await hydrateProjectAssets(record.project);
     setActiveProjectId(record.id);
     setPageName(record.name || record.folderName || "landing-page");
-    setProject(normalizeProject(record.project));
+    const normalizedProject = normalizeProject(record.project);
+    setProject(normalizedProject);
+    setPreviewProject(normalizedProject);
     setView("editor");
   };
 

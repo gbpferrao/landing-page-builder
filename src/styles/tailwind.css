@@ -189,27 +189,24 @@
 
   .prompt-flow {
     display: grid;
-    gap: 10px;
+    gap: 7px;
   }
 
   .prompt-step {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 8px;
+    align-items: start;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: #fffdfa;
-    padding: 10px;
+    padding: 8px;
   }
 
-  .prompt-step-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .prompt-step-header span {
+  .prompt-step-number {
     display: inline-flex;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-sm);
@@ -218,14 +215,6 @@
     font-size: 12px;
     font-weight: 800;
     line-height: 1;
-  }
-
-  .prompt-step-header h3 {
-    margin: 0;
-    color: var(--color-ink);
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.2;
   }
 
   .prompt-step-body {
@@ -240,42 +229,24 @@
 
   .prompt-option {
     min-width: 0;
-    min-height: 116px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-sm);
     background: var(--color-paper);
-    padding: 10px;
+    padding: 8px;
   }
 
-  .prompt-option p,
+  .prompt-option strong,
   .prompt-apply-row p {
     margin: 0;
-    color: var(--color-gold);
-    font-size: 11px;
+    color: var(--color-ink);
+    font-size: 12px;
     font-weight: 800;
     line-height: 1.2;
     text-transform: uppercase;
-  }
-
-  .prompt-option h4 {
-    margin: 5px 0 0;
-    color: var(--color-ink);
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.25;
-  }
-
-  .prompt-option span,
-  .prompt-apply-row span {
-    display: block;
-    margin-top: 5px;
-    color: var(--color-muted);
-    font-size: 12px;
-    line-height: 1.4;
   }
 
   .prompt-apply-row {
@@ -337,7 +308,7 @@
     height: 100%;
     overflow: hidden;
     border-right: 1px solid var(--color-line);
-    background: #fffdfa;
+    background: white;
   }
 
   .builder-sidebar-scroll {
@@ -349,7 +320,7 @@
 
   .configure-board {
     display: grid;
-    gap: 16px;
+    gap: 22px;
   }
 
   .configure-legend,
@@ -363,7 +334,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: #fffdfa;
+    background: white;
     border-bottom: 1px solid var(--color-line);
     margin: 0 -16px;
     padding: 14px 16px 10px;
@@ -390,33 +361,35 @@
   }
 
   .configure-section {
-    border-top: 1px solid var(--color-line);
-    padding-top: 12px;
+    border: 1px solid #d7c19c;
+    border-radius: var(--radius-md);
+    background: #f1e5d0;
+    padding: 16px;
   }
 
   .configure-section:first-of-type {
-    border-top: 0;
-    padding-top: 0;
+    border-top: 1px solid #d7c19c;
+    padding-top: 16px;
   }
 
   .configure-section-header {
-    margin-bottom: 10px;
+    margin-bottom: 14px;
   }
 
   .configure-section-header h3 {
     margin: 0;
-    color: var(--color-ink);
-    font-size: 13px;
-    font-weight: 600;
+    color: rgba(112, 80, 32, 0.76);
+    font-size: 16px;
+    font-weight: 700;
     text-transform: none;
     letter-spacing: 0;
   }
 
   .configure-section-header p {
-    margin: 4px 0 0;
-    color: var(--color-muted);
+    margin: 5px 0 0;
+    color: rgba(98, 88, 82, 0.76);
     font-size: 12px;
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   .configure-cell {
