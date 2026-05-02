@@ -54,7 +54,7 @@ function RepeaterValue({ name, value, onChange }) {
           value={value ?? ""}
           onChange={(event) => onChange(event.target.value)}
         />
-        <AssetPicker label="Substituir avatar" value={value} onChange={onChange} />
+        <AssetPicker label="Enviar imagem" value={value} onChange={onChange} />
       </div>
     );
   }
