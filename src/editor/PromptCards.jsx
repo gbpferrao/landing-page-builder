@@ -60,48 +60,80 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
     <Card padding="sm">
       <CardHeader className="mb-2">
         <div>
-          <CardTitle className="text-sm">Prompt de copywriting</CardTitle>
+          <CardTitle className="text-sm">Fluxo JSON de copywriting</CardTitle>
           <CardDescription className="text-xs leading-5">
-            Escolha uma direcao. Ambos usam apenas copy e icones em JSON compacto.
+            Siga os passos em ordem: instrucao, prompt, colar retorno e aplicar.
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="space-y-2">
-        <Field
-          as="textarea"
-          label="Instrucao geral"
-          value={instruction}
-          inputClassName="min-h-20"
-          placeholder="Ex.: foco em inventario, tom acolhedor, publico de alto patrimonio, CTA para WhatsApp."
-          help="Esta instrucao entra no prompt junto com o JSON compacto."
-          onChange={(event) => setInstruction(event.target.value)}
-        />
-        <div className="grid gap-2">
-          {prompts.map((prompt) => (
-            <div key={prompt.id} className="rounded-md border border-line bg-paper p-2">
-              <div className="mb-1.5">
-                <p className="text-sm font-medium text-ink-950">{prompt.title}</p>
-                <p className="text-xs leading-5 text-muted">{prompt.description}</p>
+      <CardContent>
+        <div className="prompt-flow">
+          <PromptStep number="1" title="Instrucao">
+            <Field
+              as="textarea"
+              label="Instrucao geral"
+              value={instruction}
+              inputClassName="min-h-20"
+              placeholder="Ex.: foco em inventario, tom acolhedor, publico de alto patrimonio, CTA para WhatsApp."
+              help="Esta instrucao entra no prompt junto com o JSON compacto."
+              onChange={(event) => setInstruction(event.target.value)}
+            />
+          </PromptStep>
+
+          <PromptStep number="2" title="Copiar prompt">
+            <div className="prompt-options-row">
+              {prompts.map((prompt, index) => (
+                <div key={prompt.id} className="prompt-option">
+                  <div>
+                    <p>{index === 0 ? "Prompt A" : "Prompt B"}</p>
+                    <h4>{prompt.title}</h4>
+                    <span>{prompt.description}</span>
+                  </div>
+                  <Button size="sm" variant="secondary" icon={Clipboard} onClick={() => copyPrompt(prompt.body)}>
+                    Copiar
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </PromptStep>
+
+          <PromptStep number="3" title="Colar JSON">
+            <Field
+              as="textarea"
+              label="Resposta da IA"
+              value={draft}
+              inputClassName="min-h-20 font-mono text-xs"
+              help={status}
+              onChange={(event) => setDraft(event.target.value)}
+            />
+          </PromptStep>
+
+          <PromptStep number="4" title="Aplicar">
+            <div className="prompt-apply-row">
+              <div>
+                <p>Atualiza somente copy e icones.</p>
+                <span>Nomes, fotos, datas, links e tracking ficam preservados.</span>
               </div>
-              <Button size="sm" variant="secondary" icon={Clipboard} onClick={() => copyPrompt(prompt.body)}>
-                Copiar prompt
+              <Button icon={Wand2} onClick={applyDraft}>
+                Aplicar copywriting
               </Button>
             </div>
-          ))}
+          </PromptStep>
         </div>
-        <Field
-          as="textarea"
-          label="Colar JSON"
-          value={draft}
-          inputClassName="min-h-16 font-mono text-xs"
-          help={status}
-          onChange={(event) => setDraft(event.target.value)}
-        />
-        <Button icon={Wand2} onClick={applyDraft} className="w-full">
-          Aplicar copywriting
-        </Button>
       </CardContent>
     </Card>
+  );
+}
+
+function PromptStep({ children, number, title }) {
+  return (
+    <section className="prompt-step">
+      <div className="prompt-step-header">
+        <span>{number}</span>
+        <h3>{title}</h3>
+      </div>
+      <div className="prompt-step-body">{children}</div>
+    </section>
   );
 }
 

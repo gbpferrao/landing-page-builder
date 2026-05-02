@@ -187,6 +187,104 @@
     color: #b91c1c;
   }
 
+  .prompt-flow {
+    display: grid;
+    gap: 10px;
+  }
+
+  .prompt-step {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: #fffdfa;
+    padding: 10px;
+  }
+
+  .prompt-step-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .prompt-step-header span {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .prompt-step-header h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .prompt-step-body {
+    min-width: 0;
+  }
+
+  .prompt-options-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .prompt-option {
+    min-width: 0;
+    min-height: 116px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: var(--color-paper);
+    padding: 10px;
+  }
+
+  .prompt-option p,
+  .prompt-apply-row p {
+    margin: 0;
+    color: var(--color-gold);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .prompt-option h4 {
+    margin: 5px 0 0;
+    color: var(--color-ink);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .prompt-option span,
+  .prompt-apply-row span {
+    display: block;
+    margin-top: 5px;
+    color: var(--color-muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .prompt-apply-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+  }
+
   .builder-shell {
     height: 100vh;
     min-height: 0;
@@ -528,6 +626,11 @@
     }
 
     .asset-chip-main {
+      grid-template-columns: 1fr;
+    }
+
+    .prompt-options-row,
+    .prompt-apply-row {
       grid-template-columns: 1fr;
     }
 
