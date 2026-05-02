@@ -43,7 +43,7 @@ const Button = forwardRef(
       <Component
         ref={ref}
         className={cn(
-          "inline-flex max-w-full box-border items-center justify-center gap-2 rounded-md border font-medium leading-none shadow-sm outline outline-2 outline-transparent transition-colors focus:outline-none focus-visible:outline-ink-950 disabled:pointer-events-none disabled:opacity-55",
+          "inline-flex max-w-full shrink-0 box-border items-center justify-center gap-2 whitespace-nowrap rounded-md border font-medium leading-none shadow-sm outline outline-2 outline-transparent transition-colors focus:outline-none focus-visible:outline-ink-950 disabled:pointer-events-none disabled:opacity-55",
           sizeClasses[size] || sizeClasses.md,
           variantClasses[variant] || variantClasses.primary,
           isDisabled && "pointer-events-none opacity-55",
@@ -57,7 +57,7 @@ const Button = forwardRef(
         {VisualIcon && iconPosition === "left" ? (
           <VisualIcon className={cn("h-4 w-4 shrink-0", loading && "animate-spin")} aria-hidden="true" />
         ) : null}
-        {children ? <span className="min-w-0 truncate">{children}</span> : null}
+        {children ? <span className="shrink-0 whitespace-nowrap">{children}</span> : null}
         {VisualIcon && iconPosition === "right" ? (
           <VisualIcon className={cn("h-4 w-4 shrink-0", loading && "animate-spin")} aria-hidden="true" />
         ) : null}
