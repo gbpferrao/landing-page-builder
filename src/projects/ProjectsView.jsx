@@ -1,5 +1,6 @@
-import { Copy, FilePlus2, FolderOpen, Trash2 } from "lucide-react";
+import { Copy, FilePlus2, FolderOpen, Trash2, X } from "lucide-react";
 import { useState } from "react";
+import AppHeader, { appHeaderPrimaryButtonClass } from "../app/AppHeader.jsx";
 import Button from "../design-system/Button.jsx";
 import Card, { CardContent, CardDescription, CardHeader, CardTitle } from "../design-system/Card.jsx";
 import Dialog from "../design-system/Dialog.jsx";
@@ -16,52 +17,53 @@ export function ProjectsView({ projects, onCreateProject, onDeleteProject, onDup
   return (
     <>
       <main className="projects-view">
-        <section className="projects-header">
-          <div>
-            <p>Gerador estatico</p>
-            <h1>Projetos de landing page</h1>
-          </div>
-          <Button icon={FilePlus2} onClick={onCreateProject}>
-            Novo projeto
-          </Button>
-        </section>
+        <AppHeader
+          actions={(
+            <Button
+              icon={FilePlus2}
+              className={appHeaderPrimaryButtonClass}
+              onClick={onCreateProject}
+            >
+              Novo projeto
+            </Button>
+          )}
+        />
 
         <section className="projects-grid" aria-label="Projetos salvos">
           {projects.length ? (
             projects.map((project) => (
-              <Card key={project.id} className="project-card">
-                <CardHeader>
-                  <div className="min-w-0">
-                    <CardTitle className="truncate">{project.name}</CardTitle>
-                    <CardDescription>{formatUpdatedAt(project.updatedAt)}</CardDescription>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="project-slug">/{project.folderName || project.name}/</p>
-                  <div className="project-actions">
+              <ProjectCard
+                key={project.id}
+                title={project.name}
+                subtitle={formatUpdatedAt(project.updatedAt)}
+                detail={`/${project.folderName || project.name}/`}
+                actions={(
+                  <>
                     <Button size="sm" icon={FolderOpen} onClick={() => onOpenProject(project.id)}>
                       Abrir
                     </Button>
                     <Button size="sm" variant="secondary" icon={Copy} onClick={() => onDuplicateProject(project.id)}>
                       Duplicar
                     </Button>
-                    <Button size="sm" variant="ghost" icon={Trash2} onClick={() => setProjectToDelete(project)}>
-                      Excluir
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </>
+                )}
+                deleteLabel={`Excluir ${project.name}`}
+                onDelete={() => setProjectToDelete(project)}
+              />
             ))
           ) : (
-            <Card className="projects-empty">
-              <CardHeader>
-                <CardTitle>Nenhum projeto salvo</CardTitle>
-                <CardDescription>Crie uma landing para salvar textos, configuracoes e imagens neste navegador.</CardDescription>
-              </CardHeader>
-              <Button icon={FilePlus2} onClick={onCreateProject}>
-                Criar primeiro projeto
-              </Button>
-            </Card>
+            <ProjectCard
+              title="Nenhum projeto salvo"
+              subtitle="Ainda nao salvo"
+              detail="Crie uma landing para salvar textos, configuracoes e imagens."
+              actions={(
+                <>
+                  <Button size="sm" icon={FilePlus2} onClick={onCreateProject}>
+                    Criar primeiro projeto
+                  </Button>
+                </>
+              )}
+            />
           )}
         </section>
       </main>
@@ -84,6 +86,33 @@ export function ProjectsView({ projects, onCreateProject, onDeleteProject, onDup
         </p>
       </Dialog>
     </>
+  );
+}
+
+function ProjectCard({ actions, deleteLabel, detail, onDelete, subtitle, title }) {
+  return (
+    <Card className="project-card">
+      <CardHeader className="project-card-header">
+        <div className="min-w-0">
+          <CardTitle className="truncate">{title}</CardTitle>
+          <CardDescription>{subtitle}</CardDescription>
+        </div>
+      </CardHeader>
+      <CardContent className="project-card-content">
+        <p className="project-slug">{detail}</p>
+        <div className="project-actions">{actions}</div>
+      </CardContent>
+      {onDelete ? (
+        <button
+          type="button"
+          className="project-card-delete"
+          aria-label={deleteLabel}
+          onClick={onDelete}
+        >
+          <X size={14} aria-hidden="true" />
+        </button>
+      ) : null}
+    </Card>
   );
 }
 

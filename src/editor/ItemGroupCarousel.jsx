@@ -104,7 +104,7 @@ export function ItemGroupCarousel({
               icon={ChevronLeft}
               size="sm"
               variant="ghost"
-              className="absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-black bg-black text-white opacity-0 shadow-sm transition-opacity hover:bg-black hover:text-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
+              className="absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full !border-transparent !bg-black !text-white opacity-0 shadow-sm transition-colors transition-opacity hover:!border-transparent hover:!bg-zinc-700 hover:!text-white group-hover/carousel:opacity-100 focus-visible:opacity-100"
               onClick={() => scrollTabs(-1)}
             />
             <div
@@ -129,7 +129,7 @@ export function ItemGroupCarousel({
                     className={cn(
                       "group flex h-9 shrink-0 touch-none select-none items-center gap-1 rounded-md border px-2 text-left text-xs font-semibold transition",
                       isActive
-                        ? "border-ink-950 bg-ink-950 text-white shadow-sm"
+                        ? "border-gold-600 bg-gold-600 text-white shadow-sm"
                         : "border-line bg-white text-ink-800 hover:bg-paper",
                       isDragging && "relative z-10 shadow-soft transition-none"
                     )}
@@ -164,7 +164,7 @@ export function ItemGroupCarousel({
               icon={ChevronRight}
               size="sm"
               variant="ghost"
-              className="absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-black bg-black text-white opacity-0 shadow-sm transition-opacity hover:bg-black hover:text-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
+              className="absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full !border-transparent !bg-black !text-white opacity-0 shadow-sm transition-colors transition-opacity hover:!border-transparent hover:!bg-zinc-700 hover:!text-white group-hover/carousel:opacity-100 focus-visible:opacity-100"
               onClick={() => scrollTabs(1)}
             />
           </div>

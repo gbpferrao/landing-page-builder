@@ -544,8 +544,46 @@
   .configure-cell {
     min-width: 0;
     display: grid;
-    gap: 10px;
+    gap: 12px;
     align-content: start;
+  }
+
+  .slot-subsection {
+    min-width: 0;
+    border-radius: var(--radius-md);
+    background: rgb(var(--color-surface-rgb) / 0.78);
+    padding: 14px;
+    box-shadow:
+      inset 3px 0 0 rgb(var(--color-gold-rgb) / 0.36),
+      inset 0 1px 0 rgb(var(--color-surface-rgb) / 0.7),
+      0 10px 24px rgba(21, 19, 16, 0.045);
+  }
+
+  .slot-subsection-header {
+    margin: 0 0 10px;
+    padding-left: 7px;
+  }
+
+  .slot-subsection-header h4 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 13px;
+    font-weight: 850;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  .slot-subsection-header p {
+    margin: 3px 0 0;
+    color: rgb(var(--color-muted-rgb) / 0.82);
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .slot-subsection-body {
+    min-width: 0;
+    display: grid;
+    gap: 9px;
   }
 
   .configure-empty {

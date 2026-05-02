@@ -1,4 +1,4 @@
-import { Image, Trash2, Upload } from "lucide-react";
+import { Image, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 import Button from "../design-system/Button.jsx";
 import Dialog from "../design-system/Dialog.jsx";
@@ -50,18 +50,19 @@ export function AssetPicker({ label, value, onChange }) {
             <p>{hasAsset ? detail.title : "Nenhuma imagem selecionada"}</p>
             <span>{hasAsset ? detail.subtitle : "Envie uma imagem ou mantenha o campo vazio."}</span>
           </div>
-          <Button size="sm" variant="secondary" icon={Upload} onClick={() => inputRef.current?.click()}>
-            {label || (hasAsset ? "Trocar" : "Enviar")}
-          </Button>
+          <button type="button" className="asset-chip-upload" onClick={() => inputRef.current?.click()}>
+            <Upload size={18} aria-hidden="true" />
+            <span>Upload</span>
+          </button>
         </div>
         {hasAsset ? (
           <button
             type="button"
-            className="asset-chip-delete"
-            aria-label="Remover imagem"
-            onClick={() => setConfirmOpen(true)}
-          >
-            <Trash2 size={14} aria-hidden="true" />
+          className="asset-chip-delete"
+          aria-label="Remover imagem"
+          onClick={() => setConfirmOpen(true)}
+        >
+            <X size={14} aria-hidden="true" />
           </button>
         ) : null}
       </div>
@@ -73,7 +74,7 @@ export function AssetPicker({ label, value, onChange }) {
         footer={(
           <div className="flex justify-end gap-2">
             <Button variant="secondary" onClick={() => setConfirmOpen(false)}>Cancelar</Button>
-            <Button variant="danger" icon={Trash2} onClick={clearAsset}>Remover</Button>
+            <Button variant="danger" icon={X} onClick={clearAsset}>Remover</Button>
           </div>
         )}
       >

@@ -101,7 +101,7 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
 
           <PromptStep title="4. Aplicar">
             <div className="prompt-apply-row">
-              <Button icon={Wand2} onClick={applyDraft}>
+              <Button icon={Wand2} className="w-full" onClick={applyDraft}>
                 Aplicar copywriting
               </Button>
             </div>
