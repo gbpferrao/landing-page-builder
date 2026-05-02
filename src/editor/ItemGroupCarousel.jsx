@@ -104,7 +104,7 @@ export function ItemGroupCarousel({
               icon={ChevronLeft}
               size="sm"
               variant="ghost"
-              className="absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-line/80 bg-white/92 opacity-0 shadow-sm backdrop-blur transition-opacity hover:bg-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
+              className="absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-black bg-black text-white opacity-0 shadow-sm transition-opacity hover:bg-black hover:text-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
               onClick={() => scrollTabs(-1)}
             />
             <div
@@ -164,7 +164,7 @@ export function ItemGroupCarousel({
               icon={ChevronRight}
               size="sm"
               variant="ghost"
-              className="absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-line/80 bg-white/92 opacity-0 shadow-sm backdrop-blur transition-opacity hover:bg-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
+              className="absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-black bg-black text-white opacity-0 shadow-sm transition-opacity hover:bg-black hover:text-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
               onClick={() => scrollTabs(1)}
             />
           </div>
