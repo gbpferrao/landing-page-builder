@@ -138,9 +138,13 @@
   .asset-chip-main {
     min-width: 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) 132px;
     align-items: center;
     gap: 10px;
+  }
+
+  .asset-chip-main > .inline-flex {
+    width: 132px;
   }
 
   .asset-chip-copy {
@@ -246,6 +250,10 @@
     border-radius: var(--radius-sm);
     background: var(--color-paper);
     padding: 8px;
+  }
+
+  .prompt-option > .inline-flex {
+    width: 92px;
   }
 
   .prompt-option strong,
@@ -609,6 +617,10 @@
 
     .asset-chip-main {
       grid-template-columns: 1fr;
+    }
+
+    .asset-chip-main > .inline-flex {
+      width: 100%;
     }
 
     .prompt-options-row,
