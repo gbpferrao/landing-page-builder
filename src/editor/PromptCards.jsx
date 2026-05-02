@@ -8,7 +8,7 @@ import { getPath, setPath } from "../domain/projectPaths.js";
 export function PromptCards({ copySlots, onProjectChange, project }) {
   const [draft, setDraft] = useState("");
   const [instruction, setInstruction] = useState("");
-  const [status, setStatus] = useState("Cole um JSON compacto de copy e icones.");
+  const [status, setStatus] = useState("");
   const promptSlots = useMemo(() => copySlots.filter(isPromptCopySlot), [copySlots]);
   const copywritingJson = useMemo(() => buildCopywritingPayload(project, promptSlots), [promptSlots, project]);
   const formattedCopy = useMemo(() => JSON.stringify(copywritingJson, null, 2), [copywritingJson]);
@@ -65,7 +65,7 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
       </CardHeader>
       <CardContent>
         <div className="prompt-flow">
-          <PromptStep number="1">
+          <PromptStep title="1. Instrucao">
             <Field
               as="textarea"
               label="Instrucao"
@@ -76,20 +76,19 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
             />
           </PromptStep>
 
-          <PromptStep number="2">
+          <PromptStep title="2. Copiar uma direcao">
             <div className="prompt-options-row">
-              {prompts.map((prompt, index) => (
+              {prompts.map((prompt) => (
                 <div key={prompt.id} className="prompt-option">
-                  <strong>{index === 0 ? "Prompt A" : "Prompt B"}</strong>
                   <Button size="sm" variant="secondary" icon={Clipboard} onClick={() => copyPrompt(prompt.body)}>
-                    Copiar
+                    {prompt.id === "institutional" ? "Institucional" : "Conversao"}
                   </Button>
                 </div>
               ))}
             </div>
           </PromptStep>
 
-          <PromptStep number="3">
+          <PromptStep title="3. Colar JSON">
             <Field
               as="textarea"
               label="Colar JSON"
@@ -100,7 +99,7 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
             />
           </PromptStep>
 
-          <PromptStep number="4">
+          <PromptStep title="4. Aplicar">
             <div className="prompt-apply-row">
               <p>Aplicar retorno JSON</p>
               <Button icon={Wand2} onClick={applyDraft}>
@@ -114,10 +113,10 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
   );
 }
 
-function PromptStep({ children, number }) {
+function PromptStep({ children, title }) {
   return (
     <section className="prompt-step">
-      <span className="prompt-step-number">{number}</span>
+      <h3>{title}</h3>
       <div className="prompt-step-body">{children}</div>
     </section>
   );

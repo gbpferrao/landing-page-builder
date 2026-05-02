@@ -207,7 +207,7 @@
 
   .prompt-step {
     display: grid;
-    grid-template-columns: 28px minmax(0, 1fr);
+    grid-template-columns: 116px minmax(0, 1fr);
     gap: 8px;
     align-items: start;
     border: 1px solid var(--color-line);
@@ -216,18 +216,12 @@
     padding: 8px;
   }
 
-  .prompt-step-number {
-    display: inline-flex;
-    width: 28px;
-    height: 28px;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
-    background: var(--color-ink);
-    color: white;
+  .prompt-step h3 {
+    margin: 2px 0 0;
+    color: rgba(112, 80, 32, 0.78);
     font-size: 12px;
     font-weight: 800;
-    line-height: 1;
+    line-height: 1.25;
   }
 
   .prompt-step-body {
@@ -244,26 +238,11 @@
     min-width: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-sm);
-    background: var(--color-paper);
-    padding: 8px;
+    justify-content: stretch;
   }
 
   .prompt-option > .inline-flex {
-    width: 92px;
-  }
-
-  .prompt-option strong,
-  .prompt-apply-row p {
-    margin: 0;
-    color: var(--color-ink);
-    font-size: 12px;
-    font-weight: 800;
-    line-height: 1.2;
-    text-transform: uppercase;
+    width: 100%;
   }
 
   .prompt-apply-row {
@@ -271,6 +250,15 @@
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 10px;
+  }
+
+  .prompt-apply-row p {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
 
   .builder-shell {
@@ -325,7 +313,7 @@
     height: 100%;
     overflow: hidden;
     border-right: 1px solid var(--color-line);
-    background: white;
+    background: #f1e5d0;
   }
 
   .builder-sidebar-scroll {
@@ -351,7 +339,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: white;
+    background: #f1e5d0;
     border-bottom: 1px solid var(--color-line);
     margin: 0 -16px;
     padding: 14px 16px 10px;
@@ -378,15 +366,15 @@
   }
 
   .configure-section {
-    border: 1px solid #d7c19c;
-    border-radius: var(--radius-md);
-    background: #f1e5d0;
-    padding: 16px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
   }
 
   .configure-section:first-of-type {
-    border-top: 1px solid #d7c19c;
-    padding-top: 16px;
+    border-top: 0;
+    padding-top: 0;
   }
 
   .configure-section-header {
@@ -396,7 +384,7 @@
   .configure-section-header h3 {
     margin: 0;
     color: rgba(112, 80, 32, 0.76);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     text-transform: none;
     letter-spacing: 0;
