@@ -93,23 +93,23 @@ export function ItemGroupCarousel({
     <div className="min-w-0 max-w-full space-y-2 overflow-hidden">
       <div className="flex min-w-0 items-center justify-between gap-3">
         <label className="min-w-0 text-sm font-medium text-ink-800">{label}</label>
-        <Button size="sm" variant="secondary" icon={Plus} onClick={onAdd}>Adicionar</Button>
+        <Button size="sm" variant="secondary" icon={Plus} className="w-[116px]" onClick={onAdd}>Adicionar</Button>
       </div>
 
       {items.length ? (
         <div className="min-w-0 max-w-full space-y-3 overflow-hidden">
-          <div className="group/carousel relative min-w-0 rounded-md border border-line/80 bg-white/55 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+          <div className="grid min-w-0 grid-cols-[32px_minmax(0,1fr)_32px] items-center gap-2">
             <IconButton
               label="Itens anteriores"
               icon={ChevronLeft}
               size="sm"
               variant="ghost"
-              className="absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full !border-transparent !bg-black !text-white opacity-0 shadow-sm transition-colors transition-opacity hover:!border-transparent hover:!bg-zinc-700 hover:!text-white group-hover/carousel:opacity-100 focus-visible:opacity-100"
+              className="rounded-full !border-transparent !bg-black !text-white shadow-sm hover:!border-transparent hover:!bg-zinc-700 hover:!text-white"
               onClick={() => scrollTabs(-1)}
             />
             <div
               ref={railRef}
-              className="flex min-w-0 max-w-full gap-1 overflow-hidden"
+              className="flex min-w-0 max-w-full gap-1 overflow-hidden rounded-md border border-line/80 bg-white/55 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
               role="tablist"
               aria-label={label}
             >
@@ -164,7 +164,7 @@ export function ItemGroupCarousel({
               icon={ChevronRight}
               size="sm"
               variant="ghost"
-              className="absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full !border-transparent !bg-black !text-white opacity-0 shadow-sm transition-colors transition-opacity hover:!border-transparent hover:!bg-zinc-700 hover:!text-white group-hover/carousel:opacity-100 focus-visible:opacity-100"
+              className="rounded-full !border-transparent !bg-black !text-white shadow-sm hover:!border-transparent hover:!bg-zinc-700 hover:!text-white"
               onClick={() => scrollTabs(1)}
             />
           </div>

@@ -550,13 +550,11 @@
 
   .slot-subsection {
     min-width: 0;
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-warm-panel);
     padding: 14px;
-    box-shadow:
-      inset 3px 0 0 rgb(var(--color-gold-rgb) / 0.4),
-      inset 0 1px 0 rgb(var(--color-surface-rgb) / 0.7),
-      0 10px 24px rgba(21, 19, 16, 0.045);
+    box-shadow: inset 0 1px 0 rgb(var(--color-surface-rgb) / 0.64);
   }
 
   .prompt-subsection {
