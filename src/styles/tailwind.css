@@ -31,6 +31,10 @@
   select {
     font: inherit;
   }
+
+  button {
+    box-sizing: border-box;
+  }
 }
 
 @layer components {
@@ -178,13 +182,18 @@
     border-radius: var(--radius-sm);
     background: white;
     color: var(--color-muted);
-    transition: color .15s ease, border-color .15s ease, background .15s ease;
+    outline: 2px solid transparent;
+    outline-offset: 0;
+    transition: color .15s ease, background .15s ease;
   }
 
   .asset-chip-delete:hover {
-    border-color: #b91c1c;
     background: #fff5f5;
     color: #b91c1c;
+  }
+
+  .asset-chip-delete:focus-visible {
+    outline-color: var(--color-ink);
   }
 
   .prompt-flow {

@@ -40,7 +40,7 @@ export function SegmentedControl({
             aria-checked={selected}
             disabled={disabled}
             className={cx(
-              "inline-flex items-center justify-center gap-2 rounded-[5px] font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500",
+              "inline-flex box-border items-center justify-center gap-2 rounded-[5px] border border-transparent font-medium outline outline-2 outline-transparent transition-colors focus:outline-none focus-visible:outline-ink-950",
               sizeClass,
               selected ? "bg-ink-950 text-white shadow-sm" : "text-muted hover:bg-white hover:text-ink-800",
               disabled && "cursor-not-allowed opacity-45"

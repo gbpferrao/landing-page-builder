@@ -2,10 +2,10 @@ import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 
 const variantClasses = {
-  primary: "border-transparent bg-ink-950 text-white shadow-sm hover:bg-ink-800 focus-visible:ring-ink-950",
-  secondary: "border-line bg-white text-ink-800 shadow-sm hover:bg-paper focus-visible:ring-ink-950",
-  ghost: "border-transparent bg-transparent text-ink-800 hover:bg-paper focus-visible:ring-ink-950",
-  danger: "border-transparent bg-red-700 text-white shadow-sm hover:bg-red-800 focus-visible:ring-red-700"
+  primary: "border-transparent bg-ink-950 text-white hover:bg-ink-800",
+  secondary: "border-line bg-white text-ink-800 hover:bg-paper",
+  ghost: "border-transparent bg-transparent text-ink-800 hover:bg-paper",
+  danger: "border-transparent bg-red-700 text-white hover:bg-red-800"
 };
 
 const sizeClasses = {
@@ -43,7 +43,7 @@ const Button = forwardRef(
       <Component
         ref={ref}
         className={cn(
-          "inline-flex max-w-full items-center justify-center gap-2 rounded-md border font-medium leading-none transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:pointer-events-none disabled:opacity-55",
+          "inline-flex max-w-full box-border items-center justify-center gap-2 rounded-md border font-medium leading-none shadow-sm outline outline-2 outline-transparent transition-colors focus:outline-none focus-visible:outline-ink-950 disabled:pointer-events-none disabled:opacity-55",
           sizeClasses[size] || sizeClasses.md,
           variantClasses[variant] || variantClasses.primary,
           isDisabled && "pointer-events-none opacity-55",
