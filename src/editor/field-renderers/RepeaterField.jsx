@@ -1,47 +1,82 @@
+import { useEffect, useState } from "react";
+import { Trash2 } from "lucide-react";
 import Button from "../../design-system/Button.jsx";
 import Field from "../../design-system/Field.jsx";
 import AssetPicker from "../AssetPicker.jsx";
+import ItemGroupCarousel from "../ItemGroupCarousel.jsx";
 
 export function RepeaterField({ slot, value, onChange }) {
   const items = Array.isArray(value) ? value : [];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveIndex((currentIndex) => {
+      if (!items.length) return 0;
+      return Math.min(currentIndex, items.length - 1);
+    });
+  }, [items.length]);
 
   const updateItem = (index, key, nextValue) => {
     onChange(items.map((item, itemIndex) => (itemIndex === index ? { ...item, [key]: nextValue } : item)));
   };
 
   const addItem = () => {
-    onChange([...items, inferBlankItem(items[0])]);
+    const nextItems = [...items, inferBlankItem(items[0])];
+    onChange(nextItems);
+    setActiveIndex(nextItems.length - 1);
   };
 
   const removeItem = (index) => {
     onChange(items.filter((_, itemIndex) => itemIndex !== index));
+    setActiveIndex((currentIndex) => {
+      if (currentIndex > index) return currentIndex - 1;
+      if (currentIndex === index) return Math.max(0, currentIndex - 1);
+      return currentIndex;
+    });
+  };
+
+  const reorderItems = (fromIndex, toIndex) => {
+    if (fromIndex === toIndex) return;
+
+    const nextItems = [...items];
+    const [movedItem] = nextItems.splice(fromIndex, 1);
+    nextItems.splice(toIndex, 0, movedItem);
+    onChange(nextItems);
+    setActiveIndex((currentIndex) => {
+      if (currentIndex === fromIndex) return toIndex;
+      if (fromIndex < currentIndex && currentIndex <= toIndex) return currentIndex - 1;
+      if (toIndex <= currentIndex && currentIndex < fromIndex) return currentIndex + 1;
+      return currentIndex;
+    });
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between gap-3">
-        <label className="text-sm font-medium text-ink-800">{slot.label}</label>
-        <Button size="sm" variant="secondary" onClick={addItem}>Adicionar</Button>
-      </div>
-      <div className="space-y-3">
-        {items.map((item, index) => (
-          <div key={index} className="space-y-2 rounded-md border border-line bg-paper p-3">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-medium text-muted">Item {index + 1}</p>
-              <Button size="sm" variant="ghost" onClick={() => removeItem(index)}>Remover</Button>
-            </div>
-            {Object.entries(item).map(([key, itemValue]) => (
-              <RepeaterValue
-                key={key}
-                name={key}
-                value={itemValue}
-                onChange={(nextValue) => updateItem(index, key, nextValue)}
-              />
-            ))}
+    <ItemGroupCarousel
+      activeIndex={activeIndex}
+      emptyLabel="Nenhum item cadastrado."
+      items={items}
+      label={slot.label}
+      onActiveIndexChange={setActiveIndex}
+      onAdd={addItem}
+      onReorder={reorderItems}
+    >
+      {(item, index) => (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium text-muted">Item {index + 1}</p>
+            <Button size="sm" variant="ghost" icon={Trash2} onClick={() => removeItem(index)}>Remover</Button>
           </div>
-        ))}
-      </div>
-    </div>
+          {Object.entries(item).map(([key, itemValue]) => (
+            <RepeaterValue
+              key={key}
+              name={key}
+              value={itemValue}
+              onChange={(nextValue) => updateItem(index, key, nextValue)}
+            />
+          ))}
+        </div>
+      )}
+    </ItemGroupCarousel>
   );
 }
 

@@ -1,6 +1,6 @@
 # Current Project
 
-Last updated: 2026-05-01
+Last updated: 2026-05-02
 
 ## Product
 
@@ -20,6 +20,7 @@ That folder is intended for direct upload into a traditional host such as Hostin
 ## Main Functionalities
 
 - Slot-based editor for brand, SEO, contact, section content, team, testimonials, FAQ, CTAs, images, and tracking.
+- Repeater-heavy section fields use a compact item carousel: fixed-width tabs named from each item's main field, pointer slide-reorder, and left/right paging controls instead of vertical stacking.
 - Projects view before the editor, backed by IndexedDB for mild local persistence.
 - Live desktop/mobile preview rendered from the same project object used for export.
 - Canonical JSON editor for full project-level edits and recovery.
@@ -77,7 +78,7 @@ Each layer reflects the same shape:
 - `src/domain/projectPaths.js` provides path reads/writes and deep merge behavior.
 - `src/lib/projectStore.js` owns IndexedDB project records and image blob records.
 - `src/editor/*` turns schema slots into field controls.
-- `src/builder/*` arranges the editor, help flow, export action, and preview frame.
+- `src/builder/*` arranges the editor, help flow, export action, and preview frame. The builder sidebar owns the two-column editor layout, scroll-pulse glass column indicators, and the custom fadeable editor scrollbar.
 - `src/preview/LandingPage.jsx` composes all landing sections from the project object.
 - `src/sections/*` owns section-specific preview rendering and schema.
 - `src/preview/exportHtml.jsx` renders the landing to static HTML and injects CSS/runtime/tracking.
