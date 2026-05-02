@@ -68,7 +68,7 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
           <PromptStep title="1. Instrucao">
             <Field
               as="textarea"
-              label="Instrucao"
+              aria-label="Instrucao geral"
               value={instruction}
               inputClassName="min-h-14"
               placeholder="Ex.: foco em inventario, tom acolhedor, publico de alto patrimonio, CTA para WhatsApp."
@@ -91,7 +91,7 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
           <PromptStep title="3. Colar JSON">
             <Field
               as="textarea"
-              label="Colar JSON"
+              aria-label="Colar JSON"
               value={draft}
               inputClassName="min-h-16 font-mono text-xs"
               help={status}
@@ -101,7 +101,6 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
 
           <PromptStep title="4. Aplicar">
             <div className="prompt-apply-row">
-              <p>Aplicar retorno JSON</p>
               <Button icon={Wand2} onClick={applyDraft}>
                 Aplicar copywriting
               </Button>
