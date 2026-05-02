@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, GripVertical, Plus } from "lucide-react";
-import Button from "../design-system/Button.jsx";
+import { ChevronLeft, ChevronRight, GripVertical, Plus, X } from "lucide-react";
 import IconButton from "../design-system/IconButton.jsx";
 
 const TAB_WIDTH = 92;
@@ -20,12 +19,14 @@ export function ItemGroupCarousel({
   label,
   onActiveIndexChange,
   onAdd,
+  onRemove,
   onReorder
 }) {
   const railRef = useRef(null);
   const [dragState, setDragState] = useState(null);
   const didDragRef = useRef(false);
   const activeItem = items[activeIndex];
+  const hasItems = items.length > 0;
 
   const moveItem = (fromIndex, toIndex) => {
     if (fromIndex === toIndex || fromIndex == null || toIndex == null) return;
@@ -90,53 +91,48 @@ export function ItemGroupCarousel({
   };
 
   return (
-    <div className="min-w-0 max-w-full space-y-2 overflow-hidden">
-      <div className="flex min-w-0 items-center justify-between gap-3">
-        <label className="min-w-0 text-sm font-medium text-ink-800">{label}</label>
-        <Button size="sm" variant="secondary" icon={Plus} className="w-[116px]" onClick={onAdd}>Adicionar</Button>
-      </div>
+    <div className="min-w-0 max-w-full overflow-x-hidden overflow-y-visible">
+      <div className="min-w-0 max-w-full overflow-x-hidden overflow-y-visible">
+        <div className="grid min-w-0 grid-cols-[44px_minmax(0,1fr)_44px] items-stretch gap-0">
+          <IconButton
+            label="Itens anteriores"
+            icon={ChevronLeft}
+            size="sm"
+            variant="ghost"
+            className="item-carousel-arrow item-carousel-arrow-left"
+            onClick={() => scrollTabs(-1)}
+          />
+          <div
+            ref={railRef}
+            className="item-carousel-rail"
+            role="tablist"
+            aria-label={label}
+          >
+            {items.map((item, index) => {
+              const isActive = index === activeIndex;
+              const tabLabel = getItemTabLabel(item, index);
+              const isDragging = dragState?.index === index;
+              const dragOffset = isDragging ? dragState.currentX - dragState.startX : 0;
 
-      {items.length ? (
-        <div className="min-w-0 max-w-full space-y-3 overflow-hidden">
-          <div className="grid min-w-0 grid-cols-[32px_minmax(0,1fr)_32px] items-center gap-2">
-            <IconButton
-              label="Itens anteriores"
-              icon={ChevronLeft}
-              size="sm"
-              variant="ghost"
-              className="rounded-full !border-transparent !bg-black !text-white shadow-sm hover:!border-transparent hover:!bg-zinc-700 hover:!text-white"
-              onClick={() => scrollTabs(-1)}
-            />
-            <div
-              ref={railRef}
-              className="flex min-w-0 max-w-full gap-1 overflow-hidden rounded-md border border-line/80 bg-white/55 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
-              role="tablist"
-              aria-label={label}
-            >
-              {items.map((item, index) => {
-                const isActive = index === activeIndex;
-                const tabLabel = getItemTabLabel(item, index);
-                const isDragging = dragState?.index === index;
-                const dragOffset = isDragging ? dragState.currentX - dragState.startX : 0;
-
-                return (
+              return (
+                <div
+                  key={`${index}-${tabLabel}`}
+                  className="relative shrink-0"
+                  style={{
+                    width: TAB_WIDTH,
+                    transform: isDragging ? `translateX(${dragOffset}px)` : undefined
+                  }}
+                >
                   <button
-                    key={`${index}-${tabLabel}`}
                     type="button"
                     role="tab"
                     aria-selected={isActive}
                     title={tabLabel}
                     className={cn(
-                      "group flex h-9 shrink-0 touch-none select-none items-center gap-1 rounded-md border px-2 text-left text-xs font-semibold transition",
-                      isActive
-                        ? "border-gold-600 bg-gold-600 text-white shadow-sm"
-                        : "border-line bg-white text-ink-800 hover:bg-paper",
+                      "item-carousel-tab",
+                      isActive && "item-carousel-tab-active",
                       isDragging && "relative z-10 shadow-soft transition-none"
                     )}
-                    style={{
-                      width: TAB_WIDTH,
-                      transform: isDragging ? `translateX(${dragOffset}px)` : undefined
-                    }}
                     onClick={() => {
                       if (didDragRef.current) return;
                       onActiveIndexChange(index);
@@ -156,28 +152,45 @@ export function ItemGroupCarousel({
                     <GripVertical className="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                     <span className="min-w-0 truncate">{tabLabel}</span>
                   </button>
-                );
-              })}
-            </div>
-            <IconButton
-              label="Proximos itens"
-              icon={ChevronRight}
-              size="sm"
-              variant="ghost"
-              className="rounded-full !border-transparent !bg-black !text-white shadow-sm hover:!border-transparent hover:!bg-zinc-700 hover:!text-white"
-              onClick={() => scrollTabs(1)}
-            />
+                  {isActive && onRemove ? (
+                    <button
+                      type="button"
+                      className="carousel-tab-remove"
+                      aria-label={`Remover ${tabLabel}`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onRemove(index);
+                      }}
+                    >
+                      <X size={12} aria-hidden="true" />
+                    </button>
+                  ) : null}
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="item-carousel-tab item-carousel-tab-add"
+              onClick={onAdd}
+            >
+              <Plus className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>Adicionar</span>
+            </button>
           </div>
+          <IconButton
+            label="Proximos itens"
+            icon={ChevronRight}
+            size="sm"
+            variant="ghost"
+            className="item-carousel-arrow item-carousel-arrow-right"
+            onClick={() => scrollTabs(1)}
+          />
+        </div>
 
-          <div className="min-w-0 rounded-md border border-line bg-paper p-3">
-            {activeItem ? children(activeItem, activeIndex) : null}
-          </div>
+        <div className="item-carousel-panel">
+          {hasItems && activeItem ? children(activeItem, activeIndex) : <p>{emptyLabel}</p>}
         </div>
-      ) : (
-        <div className="rounded-md border border-dashed border-line bg-white/60 p-3 text-sm text-muted">
-          {emptyLabel}
-        </div>
-      )}
+      </div>
     </div>
   );
 }

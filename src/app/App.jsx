@@ -124,7 +124,7 @@ export default function App() {
   };
 
   const changePageName = (nextName) => {
-    setPageName(nextName);
+    setPageName(nextName.replace(/\s/g, "-"));
   };
 
   if (view === "projects") {

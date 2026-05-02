@@ -1,15 +1,15 @@
 :root {
-  --color-paper: #f6efe4;
-  --color-surface: #fffaf2;
+  --color-paper: #fcf7ef;
+  --color-surface: #fffdf8;
   --color-editor-bg: #eadcc8;
-  --color-warm-panel: #f0e4d4;
+  --color-warm-panel: #eadbc8;
   --color-ink: #171412;
   --color-muted: #625852;
   --color-line: #d8c8b4;
   --color-gold: #a9792b;
   --color-gold-strong: #b68436;
   --color-danger: #b91c1c;
-  --color-surface-rgb: 255 250 242;
+  --color-surface-rgb: 255 253 248;
   --color-gold-rgb: 169 121 43;
   --color-muted-rgb: 98 88 82;
   --radius-sm: 6px;

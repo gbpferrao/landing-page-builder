@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Trash2 } from "lucide-react";
-import Button from "../../design-system/Button.jsx";
 import Field from "../../design-system/Field.jsx";
 import AssetPicker from "../AssetPicker.jsx";
 import ItemGroupCarousel from "../ItemGroupCarousel.jsx";
@@ -58,14 +56,11 @@ export function RepeaterField({ slot, value, onChange }) {
       label={slot.label}
       onActiveIndexChange={setActiveIndex}
       onAdd={addItem}
+      onRemove={removeItem}
       onReorder={reorderItems}
     >
       {(item, index) => (
         <div className="space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-medium text-muted">Item {index + 1}</p>
-            <Button size="sm" variant="ghost" icon={Trash2} onClick={() => removeItem(index)}>Remover</Button>
-          </div>
           {Object.entries(item).map(([key, itemValue]) => (
             <RepeaterValue
               key={key}

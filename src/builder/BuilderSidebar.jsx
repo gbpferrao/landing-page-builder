@@ -272,7 +272,6 @@ function SlotGroup({ group, project, onProjectChange }) {
     <section className="slot-subsection">
       <div className="slot-subsection-header">
         <h4>{group.title}</h4>
-        {group.description ? <p>{group.description}</p> : null}
       </div>
       <div className="slot-subsection-body">
         {providerSlots.length ? (

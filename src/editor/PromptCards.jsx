@@ -59,7 +59,6 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
     <section className="slot-subsection prompt-subsection">
       <div className="slot-subsection-header">
         <h4>Fluxo JSON de copywriting</h4>
-        <p>Copie uma direcao, cole o retorno e aplique nos campos de copy.</p>
       </div>
       <div className="slot-subsection-body">
         <div className="prompt-flow">
