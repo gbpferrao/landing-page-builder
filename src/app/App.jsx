@@ -124,7 +124,7 @@ export default function App() {
   };
 
   const changePageName = (nextName) => {
-    setPageName(sanitizeFolderName(nextName));
+    setPageName(nextName);
   };
 
   if (view === "projects") {

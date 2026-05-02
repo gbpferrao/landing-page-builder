@@ -1,7 +1,6 @@
 import { Clipboard, Wand2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import Button from "../design-system/Button.jsx";
-import Card, { CardContent, CardHeader, CardTitle } from "../design-system/Card.jsx";
 import Field from "../design-system/Field.jsx";
 import { getPath, setPath } from "../domain/projectPaths.js";
 
@@ -57,13 +56,12 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
   };
 
   return (
-    <Card padding="sm">
-      <CardHeader className="mb-2">
-        <div>
-          <CardTitle className="text-sm">Fluxo JSON de copywriting</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent>
+    <section className="slot-subsection prompt-subsection">
+      <div className="slot-subsection-header">
+        <h4>Fluxo JSON de copywriting</h4>
+        <p>Copie uma direcao, cole o retorno e aplique nos campos de copy.</p>
+      </div>
+      <div className="slot-subsection-body">
         <div className="prompt-flow">
           <PromptStep title="1. Instrucao">
             <Field
@@ -107,8 +105,8 @@ export function PromptCards({ copySlots, onProjectChange, project }) {
             </div>
           </PromptStep>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }
 
