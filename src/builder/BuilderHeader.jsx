@@ -6,12 +6,12 @@ export function BuilderHeader({ exportStatus = "idle", onBackToProjects, onExpor
   const folderName = sanitizeFolderName(pageName);
 
   return (
-    <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-surface px-5 py-2">
+    <header className="flex flex-wrap items-center justify-between gap-3 border-b border-ink-800 bg-black px-5 py-2">
       <div className="min-w-0">
-        <p className="text-xs font-medium uppercase tracking-[0.08em] text-gold-600">
+        <p className="text-xs font-medium uppercase tracking-[0.08em] text-gold-400">
           Gerador estatico
         </p>
-        <h1 className="truncate text-xl font-medium text-ink-950">
+        <h1 className="truncate text-xl font-medium text-white">
           Construtor de Landing Page V2
         </h1>
       </div>
@@ -24,13 +24,28 @@ export function BuilderHeader({ exportStatus = "idle", onBackToProjects, onExpor
             onChange={(event) => onPageNameChange(event.target.value)}
           />
         </label>
-        <Button variant="secondary" icon={LayoutGrid} onClick={onBackToProjects}>
+        <Button
+          variant="secondary"
+          icon={LayoutGrid}
+          className="border-white/15 bg-white/10 text-white hover:bg-white/16"
+          onClick={onBackToProjects}
+        >
           Projetos
         </Button>
-        <Button variant="secondary" icon={HelpCircle} onClick={onHelp}>
+        <Button
+          variant="secondary"
+          icon={HelpCircle}
+          className="border-white/15 bg-white/10 text-white hover:bg-white/16"
+          onClick={onHelp}
+        >
           Ajuda
         </Button>
-        <Button icon={FolderDown} loading={exportStatus === "working"} onClick={onExport}>
+        <Button
+          icon={FolderDown}
+          loading={exportStatus === "working"}
+          className="border-white bg-white text-black hover:bg-white/90"
+          onClick={onExport}
+        >
           {exportStatus === "working" ? "Gerando" : "Exportar pasta"}
         </Button>
       </div>

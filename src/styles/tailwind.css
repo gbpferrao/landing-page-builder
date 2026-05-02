@@ -264,15 +264,15 @@
     height: 40px;
     align-items: center;
     gap: 8px;
-    border: 1px solid var(--color-line);
+    border: 1px solid rgba(255, 253, 250, 0.2);
     border-radius: var(--radius-md);
-    background: white;
+    background: rgba(255, 253, 250, 0.08);
     padding: 0 10px;
-    box-shadow: 0 1px 2px rgba(23, 20, 18, 0.04);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
   }
 
   .header-page-name span {
-    color: var(--color-muted);
+    color: rgba(255, 253, 250, 0.62);
     font-size: 12px;
     font-weight: 700;
     line-height: 1;
@@ -283,11 +283,15 @@
     min-width: 0;
     border: 0;
     background: transparent;
-    color: var(--color-ink);
+    color: white;
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
     outline: 0;
+  }
+
+  .header-page-name input::placeholder {
+    color: rgba(255, 253, 250, 0.5);
   }
 
   .builder-frame {
@@ -487,7 +491,7 @@
     height: 100%;
     display: block;
     overflow: hidden;
-    background: #ede7dd;
+    background: white;
   }
 
   .builder-preview-stage {

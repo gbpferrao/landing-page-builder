@@ -98,18 +98,18 @@ export function ItemGroupCarousel({
 
       {items.length ? (
         <div className="min-w-0 max-w-full space-y-3 overflow-hidden">
-          <div className="relative min-w-0">
+          <div className="group/carousel relative min-w-0 rounded-md border border-line/80 bg-white/55 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
             <IconButton
               label="Itens anteriores"
               icon={ChevronLeft}
               size="sm"
               variant="ghost"
-              className="absolute left-0 top-1/2 z-20 -translate-y-1/2 bg-white/90 shadow-sm backdrop-blur"
+              className="absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-line/80 bg-white/92 opacity-0 shadow-sm backdrop-blur transition-opacity hover:bg-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
               onClick={() => scrollTabs(-1)}
             />
             <div
               ref={railRef}
-              className="flex min-w-0 max-w-full gap-1 overflow-hidden px-8"
+              className="flex min-w-0 max-w-full gap-1 overflow-hidden"
               role="tablist"
               aria-label={label}
             >
@@ -164,7 +164,7 @@ export function ItemGroupCarousel({
               icon={ChevronRight}
               size="sm"
               variant="ghost"
-              className="absolute right-0 top-1/2 z-20 -translate-y-1/2 bg-white/90 shadow-sm backdrop-blur"
+              className="absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full border-line/80 bg-white/92 opacity-0 shadow-sm backdrop-blur transition-opacity hover:bg-white group-hover/carousel:opacity-100 focus:opacity-100 focus-visible:opacity-100"
               onClick={() => scrollTabs(1)}
             />
           </div>
