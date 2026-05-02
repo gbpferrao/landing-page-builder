@@ -1,4 +1,6 @@
 import { assetPath } from "../domain/assetRegistry.js";
+import { getAssetPreviewUrl } from "../lib/objectUrls.js";
+import { isIndexedDbAssetRef } from "../lib/projectStore.js";
 
 export function resolveTemplate(value, project) {
   if (value === "{{brand.whatsappUrl}}" || value === "{{site.whatsappUrl}}") {
@@ -10,6 +12,7 @@ export function resolveTemplate(value, project) {
 
 export function previewAsset(fileName, base = "assets/") {
   if (!fileName) return "";
+  if (isIndexedDbAssetRef(fileName)) return getAssetPreviewUrl(fileName);
   return assetPath(fileName, base);
 }
 

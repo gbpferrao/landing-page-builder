@@ -4,13 +4,13 @@ Builder estatico em React para criar, editar, pre-visualizar e exportar landing 
 
 ## Uso
 
-Abra o builder:
+Abra o app:
 
 ```txt
 index.html
 ```
 
-O editor abre direto na previa da landing page, com sidebar fixa para edicao por slots, edicao JSON, prompts de IA, upload de imagens e acoes de exportacao.
+O app abre na tela de projetos. Crie ou abra um projeto para entrar no editor, com sidebar fixa para edicao por slots, edicao JSON, prompts de IA, upload de imagens e acoes de exportacao.
 
 Para rodar em desenvolvimento:
 
@@ -33,7 +33,7 @@ dist/
 
 ## Exportacao
 
-No topo do builder, preencha **Nome da pagina**. Esse valor vira o nome da pasta exportada e tambem o slug sugerido para hospedagem.
+No topo do editor, preencha **Projeto**. Esse valor e o nome do projeto, o nome da pasta exportada e tambem o slug sugerido para hospedagem.
 
 Depois, clique em **Exportar pasta** e escolha onde salvar a landing. O builder cria uma pasta com:
 
@@ -84,6 +84,12 @@ sections.<section>.assets
 
 As tags ficam centralizadas em `site.tracking`: pageview, clique no video, assistiu X segundos e clique em WhatsApp. A landing exportada so injeta GA4, Google Ads e Meta Pixel quando o provedor esta ativo e com ID preenchido.
 
+## Persistencia
+
+Projetos sao salvos automaticamente no navegador com IndexedDB. O armazenamento local guarda o JSON do projeto, o nome da pagina/pasta e os blobs das imagens enviadas pelo editor.
+
+Essa persistencia e local ao navegador/dispositivo atual. Para publicar ou mover uma landing, use **Exportar pasta**.
+
 ## Assets
 
 Assets padrao ficam em:
@@ -92,6 +98,6 @@ Assets padrao ficam em:
 public/assets/defaults/
 ```
 
-No JSON e nos campos de imagem, use caminhos relativos a `assets/` ou envie arquivos pelo proprio builder. Durante a exportacao, as imagens usadas sao incluidas na pasta exportada.
+No JSON e nos campos de imagem, use caminhos relativos a `assets/` ou envie arquivos pelo proprio builder. Imagens enviadas ficam salvas no IndexedDB e, durante a exportacao, sao incluidas na pasta exportada.
 
 Depoimentos nao usam fotos, nomes ou avatares padrao. A landing so mostra foto, nome ou data quando esses campos forem preenchidos no editor da landing.

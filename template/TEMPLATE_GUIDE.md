@@ -2,7 +2,7 @@
 
 ## Builder
 
-Abra `index.html` para usar o builder estatico. Edite por slots ou cole um JSON completo no formato canonico do projeto. Preencha **Nome da pagina** no topo e clique em **Exportar pasta** para salvar:
+Abra `index.html` para usar o app. Crie ou abra um projeto, edite por slots ou cole um JSON completo no formato canonico. Preencha **Projeto** no topo do editor e clique em **Exportar pasta** para salvar:
 
 ```txt
 nome-da-pagina/
@@ -57,6 +57,8 @@ R2: Resposta
 ## Imagens
 
 Use caminhos em `assets/` ou envie imagens pelo campo de upload do builder.
+
+Imagens enviadas sao salvas no IndexedDB junto com o projeto, para sobreviver a refresh e reabertura no mesmo navegador.
 
 Assets padrao:
 

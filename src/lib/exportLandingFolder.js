@@ -1,6 +1,7 @@
 import { landingCss } from "../preview/exportHtml.jsx";
 import { exportHtml } from "../preview/exportHtml.jsx";
-import { getManagedObjectUrlFile } from "./objectUrls.js";
+import { getAssetPreviewUrl, getManagedObjectUrlFile, getPersistedAssetBlob } from "./objectUrls.js";
+import { getAsset, getAssetIdFromRef, isIndexedDbAssetRef } from "./projectStore.js";
 
 const textEncoder = new TextEncoder();
 
@@ -21,7 +22,8 @@ export async function exportLandingFolder(project, folderName = "landing-page") 
 export async function buildLandingFiles(project) {
   const files = [];
   const uploadEntries = collectUploadedAssets(project);
-  const html = rewriteHtmlAssetPaths(exportHtml(project, { inlineCss: false }), uploadEntries);
+  const persistedAssetEntries = await collectPersistedAssets(project);
+  const html = rewriteHtmlAssetPaths(exportHtml(project, { inlineCss: false }), [...uploadEntries, ...persistedAssetEntries]);
 
   files.push({ path: "index.html", data: textEncoder.encode(html) });
   files.push({ path: "styles.css", data: textEncoder.encode(landingCss) });
@@ -35,6 +37,9 @@ export async function buildLandingFiles(project) {
   for (const entry of uploadEntries) {
     files.push({ path: entry.path, data: new Uint8Array(await entry.file.arrayBuffer()) });
   }
+  for (const entry of persistedAssetEntries) {
+    files.push({ path: entry.path, data: new Uint8Array(await entry.blob.arrayBuffer()) });
+  }
 
   return files;
 }
@@ -46,6 +51,7 @@ export function collectProjectAssets(project) {
   const seen = new Set();
   return values
     .filter((value) => !value.startsWith("blob:"))
+    .filter((value) => !isIndexedDbAssetRef(value))
     .filter(isAssetReference)
     .map(assetEntry)
     .filter(Boolean)
@@ -92,6 +98,31 @@ function assetEntry(value) {
   return { url: `assets/${normalized}`, path: `assets/${normalized}` };
 }
 
+async function collectPersistedAssets(project) {
+  const values = [];
+  collectStrings(project, values);
+  const entriesByRef = new Map();
+  const usedPaths = new Set();
+
+  for (const ref of values.filter(isIndexedDbAssetRef)) {
+    if (entriesByRef.has(ref)) continue;
+
+    const assetId = getAssetIdFromRef(ref);
+    const asset = await getAsset(assetId);
+    const blob = getPersistedAssetBlob(ref) || asset?.blob;
+    if (!blob) continue;
+
+    const name = sanitizeFileName(asset?.fileName || `upload-${entriesByRef.size + 1}.png`);
+    const path = makeUniqueUploadPath(name, usedPaths);
+    const entry = { urls: [ref, getAssetPreviewUrl(ref)].filter(Boolean), blob, path };
+
+    entriesByRef.set(ref, entry);
+    usedPaths.add(path);
+  }
+
+  return Array.from(entriesByRef.values());
+}
+
 function collectUploadedAssets(project) {
   const values = [];
   collectStrings(project, values);
@@ -108,7 +139,7 @@ function collectUploadedAssets(project) {
 
       const name = sanitizeFileName(file.name || `upload-${index + 1}.png`);
       const path = makeUniqueUploadPath(name, usedPaths);
-      const entry = { url, file, path };
+      const entry = { urls: [url], file, path };
 
       entriesByUrl.set(url, entry);
       usedPaths.add(path);
@@ -121,7 +152,9 @@ function rewriteHtmlAssetPaths(html, uploadEntries = []) {
   let nextHtml = html
     .replace(/%20/g, " ");
   uploadEntries.forEach((entry) => {
-    nextHtml = nextHtml.split(entry.url).join(entry.path);
+    entry.urls.forEach((url) => {
+      nextHtml = nextHtml.split(url).join(entry.path);
+    });
   });
   return nextHtml;
 }

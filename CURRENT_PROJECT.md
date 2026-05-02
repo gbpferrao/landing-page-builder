@@ -4,7 +4,7 @@ Last updated: 2026-05-01
 
 ## Product
 
-This repository is a static React landing page builder. It lets a user configure a legal-services landing page through structured editor fields, preview the result inside the builder, generate AI copy prompts, paste back copy JSON, upload images, configure tracking tags, name the page folder, and export a ready-to-host landing folder.
+This repository is a static React landing page builder. It lets a user create saved landing projects, configure a legal-services landing page through structured editor fields, preview the result inside the builder, generate AI copy prompts, paste back copy JSON, upload images, configure tracking tags, name the project/page folder, and export a ready-to-host landing folder.
 
 The builder itself is published as a Vite app. The exported landing is a separate static folder named from the header page name field and containing:
 
@@ -20,10 +20,11 @@ That folder is intended for direct upload into a traditional host such as Hostin
 ## Main Functionalities
 
 - Slot-based editor for brand, SEO, contact, section content, team, testimonials, FAQ, CTAs, images, and tracking.
+- Projects view before the editor, backed by IndexedDB for mild local persistence.
 - Live desktop/mobile preview rendered from the same project object used for export.
 - Canonical JSON editor for full project-level edits and recovery.
 - Copywriting prompt helper that sends only copy-safe fields and preserves identity/image fields in testimonials.
-- Image upload support through browser blob URLs while editing.
+- Image upload support persisted as IndexedDB blobs and hydrated to browser object URLs for preview/export.
 - Folder export that rewrites uploaded blob URLs into `assets/uploads/...` paths and includes referenced local assets.
 - Tracking configuration for GA4, Google Ads, Meta Pixel, pageview, video click/watch, and WhatsApp clicks.
 - Review/testimonial identity is editor-owned: no default names, no default photos, and no fallback avatar is rendered when identity fields are blank.
@@ -62,6 +63,7 @@ The whole system revolves around one canonical project object.
 ```txt
 defaultProject
   -> normalizeProject
+  -> ProjectsView / IndexedDB project record
   -> builder/editor fields
   -> live preview
   -> exportHtml
@@ -73,6 +75,7 @@ Each layer reflects the same shape:
 - `src/domain/defaultProject.js` defines the complete default project data.
 - `src/domain/projectSchema.js` defines which paths become editable slots.
 - `src/domain/projectPaths.js` provides path reads/writes and deep merge behavior.
+- `src/lib/projectStore.js` owns IndexedDB project records and image blob records.
 - `src/editor/*` turns schema slots into field controls.
 - `src/builder/*` arranges the editor, help flow, export action, and preview frame.
 - `src/preview/LandingPage.jsx` composes all landing sections from the project object.
@@ -92,6 +95,8 @@ public/assets/defaults/team/
 ```
 
 Project image fields may point to an `assets/...` path, an external URL, a data URL, or an uploaded browser `blob:` URL.
+
+Uploaded editor images are stored as IndexedDB blobs and referenced in project JSON as `idb-asset://...`. When a saved project opens, those references are hydrated into object URLs for preview. During export, they are written as real files under `assets/uploads/`.
 
 On export, uploaded blob assets are resolved from the in-memory object URL registry and written into:
 
@@ -130,18 +135,21 @@ main...origin/main
 Latest commits before this update:
 
 ```txt
+e54559a Export landing as named folder
 2389c41 Update hosting help for slug publishing
 99e9c2f Document project state and fix review export assets
 946379e Add GitHub Pages deploy workflow
 ```
 
-Current export-related implementation:
+Current project and export-related implementation:
 
 ```txt
 src/app/App.jsx
 src/builder/BuilderHeader.jsx
 src/builder/BuilderShell.jsx
+src/lib/projectStore.js
 src/lib/exportLandingFolder.js
+src/projects/ProjectsView.jsx
 ```
 
-The header owns the page/folder name, `BuilderShell` passes it into export, and `exportLandingFolder.js` writes the static landing folder directly through the browser File System Access API. The previous ZIP writer was removed.
+The Projects view opens before the editor and stores project records in IndexedDB. The header owns the project/page/folder name, `BuilderShell` passes it into export, and `exportLandingFolder.js` writes the static landing folder directly through the browser File System Access API. Uploaded images are stored as IndexedDB blobs and written as real files during export.

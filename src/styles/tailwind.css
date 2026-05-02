@@ -34,12 +34,109 @@
 }
 
 @layer components {
+  .projects-view {
+    height: 100vh;
+    overflow: auto;
+    background: var(--color-paper);
+    padding: 32px;
+  }
+
+  .projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 1120px;
+    margin: 0 auto 20px;
+  }
+
+  .projects-header p {
+    margin: 0 0 6px;
+    color: var(--color-gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .projects-header h1 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .projects-grid {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .project-card {
+    min-height: 172px;
+  }
+
+  .project-slug {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .projects-empty {
+    grid-column: 1 / -1;
+    max-width: 520px;
+  }
+
   .builder-shell {
     height: 100vh;
     min-height: 0;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     overflow: hidden;
+  }
+
+  .header-page-name {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: white;
+    padding: 0 10px;
+    box-shadow: 0 1px 2px rgba(23, 20, 18, 0.04);
+  }
+
+  .header-page-name span {
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .header-page-name input {
+    width: 190px;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    outline: 0;
   }
 
   .builder-frame {
@@ -326,6 +423,23 @@
   }
 
   @media (max-width: 860px) {
+    .projects-view {
+      padding: 20px;
+    }
+
+    .projects-header {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .header-page-name {
+      width: 100%;
+    }
+
+    .header-page-name input {
+      width: 100%;
+    }
+
     .builder-frame {
       grid-template-columns: 1fr;
       grid-template-rows: minmax(220px, 42vh) minmax(0, 1fr);

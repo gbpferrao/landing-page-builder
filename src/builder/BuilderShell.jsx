@@ -8,7 +8,7 @@ import Dialog from "../design-system/Dialog.jsx";
 import { Toast, ToastViewport } from "../design-system/Toast.jsx";
 import { exportLandingFolder, sanitizeFolderName } from "../lib/exportLandingFolder.js";
 
-export function BuilderShell({ onPageNameChange, onProjectChange, pageName, previewHtml, project }) {
+export function BuilderShell({ onBackToProjects, onPageNameChange, onProjectChange, pageName, previewHtml, project }) {
   const [helpOpen, setHelpOpen] = useState(false);
   const [exportStatus, setExportStatus] = useState("ready");
   const folderName = sanitizeFolderName(pageName);
@@ -28,6 +28,7 @@ export function BuilderShell({ onPageNameChange, onProjectChange, pageName, prev
       <BuilderHeader
         exportStatus={exportStatus}
         pageName={pageName}
+        onBackToProjects={onBackToProjects}
         onExport={handleExport}
         onHelp={() => setHelpOpen(true)}
         onPageNameChange={onPageNameChange}
@@ -84,7 +85,7 @@ export function BuilderShell({ onPageNameChange, onProjectChange, pageName, prev
               </div>
             </div>
             <ol>
-              <li>Defina o Nome da pagina no topo. Ele vira a pasta exportada, como {folderName}.</li>
+              <li>Defina o Projeto no topo. Ele vira a pasta exportada, como {folderName}.</li>
               <li>Clique em Exportar pasta e escolha onde salvar os arquivos no computador.</li>
               <li>No painel da Hostinger, abra Gerenciador de Arquivos e entre em public_html.</li>
               <li>Envie a pasta exportada inteira para public_html, sem passar pelo WordPress.</li>

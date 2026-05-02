@@ -1,13 +1,12 @@
-import { FolderDown, HelpCircle } from "lucide-react";
+import { FolderDown, HelpCircle, LayoutGrid } from "lucide-react";
 import Button from "../design-system/Button.jsx";
-import Field from "../design-system/Field.jsx";
 import { sanitizeFolderName } from "../lib/exportLandingFolder.js";
 
-export function BuilderHeader({ exportStatus = "idle", onExport, onHelp, onPageNameChange, pageName }) {
+export function BuilderHeader({ exportStatus = "idle", onBackToProjects, onExport, onHelp, onPageNameChange, pageName }) {
   const folderName = sanitizeFolderName(pageName);
 
   return (
-    <header className="flex flex-wrap items-center justify-between gap-4 border-b border-line bg-surface px-5 py-3">
+    <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-surface px-5 py-2">
       <div className="min-w-0">
         <p className="text-xs font-medium uppercase tracking-[0.08em] text-gold-600">
           Gerador estatico
@@ -16,14 +15,18 @@ export function BuilderHeader({ exportStatus = "idle", onExport, onHelp, onPageN
           Construtor de Landing Page V2
         </h1>
       </div>
-      <div className="flex shrink-0 flex-wrap items-end gap-2">
-        <Field
-          label="Nome da pagina"
-          value={pageName}
-          inputClassName="h-10 w-52"
-          help={`Pasta: ${folderName}`}
-          onChange={(event) => onPageNameChange(event.target.value)}
-        />
+      <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <label className="header-page-name" title={`Pasta exportada: ${folderName}`}>
+          <span>Projeto</span>
+          <input
+            value={pageName}
+            aria-label="Nome do projeto e da pasta"
+            onChange={(event) => onPageNameChange(event.target.value)}
+          />
+        </label>
+        <Button variant="secondary" icon={LayoutGrid} onClick={onBackToProjects}>
+          Projetos
+        </Button>
         <Button variant="secondary" icon={HelpCircle} onClick={onHelp}>
           Ajuda
         </Button>

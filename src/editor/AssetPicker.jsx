@@ -1,6 +1,7 @@
 import { Upload } from "lucide-react";
 import Button from "../design-system/Button.jsx";
-import { createManagedObjectUrl } from "../lib/objectUrls.js";
+import { registerPersistedAsset } from "../lib/objectUrls.js";
+import { makeAssetRef, saveAssetFile } from "../lib/projectStore.js";
 import { previewAsset } from "../preview/previewUtils.js";
 
 export function AssetPicker({ label, value, onChange }) {
@@ -16,10 +17,14 @@ export function AssetPicker({ label, value, onChange }) {
           className="sr-only"
           type="file"
           accept="image/*"
-          onChange={(event) => {
+          onChange={async (event) => {
             const file = event.target.files?.[0];
             if (!file) return;
-            onChange(createManagedObjectUrl(file));
+            const asset = await saveAssetFile(file);
+            const assetRef = makeAssetRef(asset.id);
+            registerPersistedAsset(assetRef, file);
+            onChange(assetRef);
+            event.target.value = "";
           }}
         />
         <Button as="span" variant="secondary" icon={Upload} className="w-full cursor-pointer">
