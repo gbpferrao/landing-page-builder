@@ -6,18 +6,14 @@ import { getAsset, getAssetIdFromRef, isIndexedDbAssetRef } from "./projectStore
 const textEncoder = new TextEncoder();
 
 export async function exportLandingFolder(project, folderName = "landing-page") {
-  if (!window.showDirectoryPicker) {
-    throw new Error("Seu navegador nao permite salvar pastas diretamente. Use Chrome ou Edge atualizado.");
-  }
-
   const safeFolderName = sanitizeFolderName(folderName);
-  const rootHandle = await window.showDirectoryPicker({ id: "landing-export", mode: "readwrite", startIn: "downloads" });
-  const landingHandle = await rootHandle.getDirectoryHandle(safeFolderName, { create: true });
   const files = await buildLandingFiles(project);
+  const zipBytes = buildZipArchive(files.map((file) => ({
+    path: `${safeFolderName}/${file.path}`,
+    data: file.data
+  })));
 
-  for (const file of files) {
-    await writeNestedFile(landingHandle, file.path, file.data);
-  }
+  downloadBlob(new Blob([zipBytes], { type: "application/zip" }), `${safeFolderName}.zip`);
 
   return safeFolderName;
 }
@@ -197,19 +193,123 @@ async function fetchBytes(url) {
   }
 }
 
-async function writeNestedFile(directoryHandle, filePath, data) {
-  const parts = filePath.split("/").filter(Boolean);
-  const fileName = parts.pop();
-  let currentHandle = directoryHandle;
+function buildZipArchive(files) {
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
 
-  for (const part of parts) {
-    currentHandle = await currentHandle.getDirectoryHandle(part, { create: true });
+  for (const file of files) {
+    const nameBytes = textEncoder.encode(file.path.replace(/\\/g, "/"));
+    const data = file.data instanceof Uint8Array ? file.data : new Uint8Array(file.data);
+    const crc = crc32(data);
+    const localHeader = concatBytes([
+      uint32(0x04034b50),
+      uint16(20),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint32(crc),
+      uint32(data.byteLength),
+      uint32(data.byteLength),
+      uint16(nameBytes.byteLength),
+      uint16(0),
+      nameBytes
+    ]);
+    const centralHeader = concatBytes([
+      uint32(0x02014b50),
+      uint16(20),
+      uint16(20),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint32(crc),
+      uint32(data.byteLength),
+      uint32(data.byteLength),
+      uint16(nameBytes.byteLength),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint32(0),
+      uint32(offset),
+      nameBytes
+    ]);
+
+    localParts.push(localHeader, data);
+    centralParts.push(centralHeader);
+    offset += localHeader.byteLength + data.byteLength;
   }
 
-  const fileHandle = await currentHandle.getFileHandle(fileName, { create: true });
-  const writable = await fileHandle.createWritable();
-  await writable.write(data);
-  await writable.close();
+  const centralSize = centralParts.reduce((sum, part) => sum + part.byteLength, 0);
+  const endRecord = concatBytes([
+    uint32(0x06054b50),
+    uint16(0),
+    uint16(0),
+    uint16(files.length),
+    uint16(files.length),
+    uint32(centralSize),
+    uint32(offset),
+    uint16(0)
+  ]);
+
+  return concatBytes([...localParts, ...centralParts, endRecord]);
 }
+
+function downloadBlob(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function concatBytes(parts) {
+  const totalLength = parts.reduce((sum, part) => sum + part.byteLength, 0);
+  const output = new Uint8Array(totalLength);
+  let offset = 0;
+
+  parts.forEach((part) => {
+    output.set(part, offset);
+    offset += part.byteLength;
+  });
+
+  return output;
+}
+
+function uint16(value) {
+  const bytes = new Uint8Array(2);
+  new DataView(bytes.buffer).setUint16(0, value, true);
+  return bytes;
+}
+
+function uint32(value) {
+  const bytes = new Uint8Array(4);
+  new DataView(bytes.buffer).setUint32(0, value >>> 0, true);
+  return bytes;
+}
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+
+  for (let index = 0; index < bytes.length; index += 1) {
+    crc = (crc >>> 8) ^ crcTable[(crc ^ bytes[index]) & 0xff];
+  }
+
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+const crcTable = Array.from({ length: 256 }, (_, index) => {
+  let value = index;
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
+  }
+  return value >>> 0;
+});
 
 export default exportLandingFolder;

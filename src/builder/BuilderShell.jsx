@@ -86,7 +86,7 @@ export function BuilderShell({ onBackToProjects, onPageNameChange, onProjectChan
             </div>
             <ol>
               <li>Defina o Projeto no topo. Ele vira a pasta exportada, como {folderName}.</li>
-              <li>Clique em Exportar pasta e escolha onde salvar os arquivos no computador.</li>
+              <li>Clique em Baixar ZIP para salvar o pacote da landing no computador.</li>
               <li>No painel da Hostinger, abra Gerenciador de Arquivos e entre em public_html.</li>
               <li>Envie a pasta exportada inteira para public_html, sem passar pelo WordPress.</li>
               <li>Confirme que /{folderName}/ contem index.html, styles.css e assets diretamente na pasta.</li>
@@ -103,8 +103,8 @@ export function BuilderShell({ onBackToProjects, onPageNameChange, onProjectChan
         {exportStatus === "done" ? (
           <Toast
             type="success"
-            title="Pasta exportada"
-            description={`A pasta ${folderName} contem index.html, styles.css e assets para publicacao.`}
+            title="ZIP baixado"
+            description={`${folderName}.zip contem index.html, styles.css e assets para publicacao.`}
             duration={3500}
             onClose={() => setExportStatus("ready")}
           />
@@ -112,8 +112,8 @@ export function BuilderShell({ onBackToProjects, onPageNameChange, onProjectChan
         {exportStatus === "error" ? (
           <Toast
             type="error"
-            title="Falha ao exportar"
-            description="Use Chrome ou Edge atualizado e confirme a permissao para salvar a pasta."
+            title="Falha ao baixar"
+            description="Tente novamente e confira se o navegador nao bloqueou downloads."
             onClose={() => setExportStatus("ready")}
           />
         ) : null}

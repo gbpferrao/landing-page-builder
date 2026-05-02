@@ -2,7 +2,7 @@
 
 ## Current Product
 
-A&A Studio is a local-first landing page builder for legal-services campaigns. The builder is published as a static Vite app and produces static landing folders that can be uploaded to traditional hosting.
+A&A Studio is a local-first landing page builder for legal-services campaigns. The builder is published as a static Vite app and produces static landing ZIP downloads that can be uploaded to traditional hosting.
 
 ## Current User Flow
 
@@ -12,7 +12,7 @@ A&A Studio is a local-first landing page builder for legal-services campaigns. T
 4. Preview the landing in desktop or mobile mode.
 5. Optionally generate copywriting prompts and paste returned JSON.
 6. Configure tracking tags and event names.
-7. Export a named static landing folder.
+7. Download a named static landing ZIP.
 
 ## Current Features
 
@@ -28,7 +28,7 @@ A&A Studio is a local-first landing page builder for legal-services campaigns. T
 - Tracking provider setup for GA4, Google Ads, and Meta Pixel.
 - Tracking event setup for pageview and WhatsApp clicks; video click/watch remain supported in code but hidden from the project UI for quick reactivation.
 - Desktop/mobile preview from the same canonical project object used for export.
-- Folder export through the browser File System Access API.
+- ZIP export through a normal browser download.
 - Uploaded image persistence through IndexedDB.
 
 ## Persistence
@@ -37,15 +37,16 @@ Projects and uploaded image blobs are local to the current browser/device. They 
 
 ## Export Contract
 
-Export creates:
+Export downloads:
 
 ```txt
-page-name/
-  index.html
-  styles.css
-  assets/
-    defaults/
-    uploads/
+page-name.zip
+  page-name/
+    index.html
+    styles.css
+    assets/
+      defaults/
+      uploads/
 ```
 
 Uploaded images are written under `assets/uploads/`. Default images are copied from `public/assets/defaults/`.
