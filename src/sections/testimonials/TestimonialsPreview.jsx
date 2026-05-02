@@ -57,6 +57,8 @@ function ReviewIdentity({ review }) {
     <div className="review-identity">
       {review.image ? (
         <img className="review-avatar" src={previewAsset(review.image)} alt={review.name ? `Foto de ${review.name}` : ""} />
+      ) : review.name ? (
+        <span className="review-avatar review-avatar-fallback" aria-hidden="true">{reviewInitials(review.name)}</span>
       ) : null}
       {review.name || review.date ? (
         <div>
@@ -66,6 +68,17 @@ function ReviewIdentity({ review }) {
       ) : null}
     </div>
   );
+}
+
+function reviewInitials(name) {
+  return String(name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
 }
 
 export default TestimonialsPreview;

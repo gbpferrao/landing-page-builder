@@ -123,6 +123,10 @@ export default function App() {
     await refreshProjects();
   };
 
+  const changePageName = (nextName) => {
+    setPageName(sanitizeFolderName(nextName));
+  };
+
   if (view === "projects") {
     return (
       <ProjectsView
@@ -141,7 +145,7 @@ export default function App() {
       pageName={pageName}
       onBackToProjects={returnToProjects}
       onProjectChange={setProject}
-      onPageNameChange={setPageName}
+      onPageNameChange={changePageName}
       previewHtml={previewHtml}
     />
   );

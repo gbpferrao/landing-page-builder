@@ -16,7 +16,7 @@ export function BuilderShell({ onBackToProjects, onPageNameChange, onProjectChan
   const handleExport = async () => {
     setExportStatus("working");
     try {
-      await exportLandingFolder(project, pageName);
+      await exportLandingFolder(project, folderName);
       setExportStatus("done");
     } catch {
       setExportStatus("error");

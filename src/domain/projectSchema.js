@@ -36,8 +36,9 @@ export const globalSlots = [
   { path: "site.tracking.providers.meta.enabled", label: "Ativar Meta Pixel", type: "boolean", group: "tracking" },
   { path: "site.tracking.providers.meta.pixelId", label: "Meta Pixel ID", type: "text", group: "tracking" },
   { path: "site.tracking.pageView", label: "PageView da landing", type: "tracking-event", group: "tracking" },
-  { path: "site.tracking.videoClick", label: "Clique no video", type: "tracking-event", group: "tracking" },
-  { path: "site.tracking.videoWatch", label: "Assistiu X segundos", type: "tracking-event", group: "tracking" },
+  // Hidden for now; tracking runtime still supports these events if re-enabled here.
+  // { path: "site.tracking.videoClick", label: "Clique no video", type: "tracking-event", group: "tracking" },
+  // { path: "site.tracking.videoWatch", label: "Assistiu X segundos", type: "tracking-event", group: "tracking" },
   { path: "site.tracking.whatsappClick", label: "Clique em WhatsApp", type: "tracking-event", group: "tracking" }
 ];
 

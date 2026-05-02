@@ -10,13 +10,16 @@ export async function exportLandingFolder(project, folderName = "landing-page") 
     throw new Error("Seu navegador nao permite salvar pastas diretamente. Use Chrome ou Edge atualizado.");
   }
 
-  const rootHandle = await window.showDirectoryPicker({ mode: "readwrite" });
-  const landingHandle = await rootHandle.getDirectoryHandle(sanitizeFolderName(folderName), { create: true });
+  const safeFolderName = sanitizeFolderName(folderName);
+  const rootHandle = await window.showDirectoryPicker({ id: "landing-export", mode: "readwrite", startIn: "downloads" });
+  const landingHandle = await rootHandle.getDirectoryHandle(safeFolderName, { create: true });
   const files = await buildLandingFiles(project);
 
   for (const file of files) {
     await writeNestedFile(landingHandle, file.path, file.data);
   }
+
+  return safeFolderName;
 }
 
 export async function buildLandingFiles(project) {

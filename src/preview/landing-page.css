@@ -599,6 +599,16 @@ h3 { font-size: 20px; }
   flex: 0 0 42px;
   background: #8092a0;
 }
+.review-avatar-fallback {
+  display: inline-grid;
+  place-items: center;
+  background: #30363d;
+  border: 1px solid rgba(255,255,255,.16);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
 .review-card h3 {
   color: var(--white);
   font-size: 15px;
@@ -667,6 +677,11 @@ h3 { font-size: 20px; }
 .band-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .band-inner p { margin-bottom: 0; }
 .accordion { display: grid; gap: 12px; margin-bottom: 24px; }
+.faq-section-header {
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
 details { border: 1px solid #e5e1d7; border-radius: 8px; padding: 18px 20px; background: var(--white); }
 summary { cursor: pointer; font-weight: 800; }
 details p { margin-bottom: 0; color: var(--muted); }
@@ -674,6 +689,11 @@ details p { margin-bottom: 0; color: var(--muted); }
 .check-item { display: flex; gap: 14px; margin-top: 22px; }
 .check-item span { color: var(--accent); font-weight: 900; }
 .check-item p { margin: 0; }
+.faq-final-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
 .site-footer { background: var(--dark); color: var(--white); padding-top: 56px; }
 .footer-grid { display: grid; grid-template-columns: 1.1fr .8fr 1.2fr 1fr; gap: 32px; }
 .footer-logo { width: 150px; }

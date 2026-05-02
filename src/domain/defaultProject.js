@@ -127,13 +127,14 @@ export const defaultProject = {
         readMoreUrl: "https://share.google/ht8uWHLPhla3a8RU3",
         disclaimer: "Os resultados podem variar de acordo com cada caso. Nao garantimos resultados especificos.",
         reviews: [
-          { name: "", date: "", rating: 5, image: "", text: "Atendimento claro e objetivo desde o primeiro contato." },
-          { name: "", date: "", rating: 5, image: "", text: "Consegui entender melhor meu contrato e o que poderia ser feito." },
-          { name: "", date: "", rating: 5, image: "", text: "Equipe organizada, com retornos sempre dentro do combinado." },
-          { name: "", date: "", rating: 5, image: "", text: "As orientações foram diretas e ajudaram bastante na decisão." },
-          { name: "", date: "", rating: 5, image: "", text: "Gostei da seriedade no atendimento e da forma como conduziram o caso." },
-          { name: "", date: "", rating: 5, image: "", text: "Fui bem atendido e tive uma visão mais clara sobre as alternativas." },
-          { name: "", date: "", rating: 5, image: "", text: "O processo foi conduzido com atenção e comunicação simples." }
+          { name: "Antônio Carlos Brandão", date: "", rating: 5, image: "", text: "Atendimento claro e objetivo desde o primeiro contato." },
+          { name: "Diego Vaz", date: "", rating: 5, image: "", text: "Consegui entender melhor meu contrato e o que poderia ser feito." },
+          { name: "Joana de Carvalho", date: "", rating: 5, image: "", text: "Equipe organizada, com retornos sempre dentro do combinado." },
+          { name: "Nelson Regly da Silva", date: "", rating: 5, image: "", text: "As orientacoes foram diretas e ajudaram bastante na decisao." },
+          { name: "Nelson Regly da Silva", date: "", rating: 5, image: "", text: "As orientacoes foram diretas e ajudaram bastante na decisao." },
+          { name: "Fátima Bezerra", date: "", rating: 5, image: "", text: "Gostei da seriedade no atendimento e da forma como conduziram o caso." },
+          { name: "Lucas Mastrangelo", date: "", rating: 5, image: "", text: "Fui bem atendido e tive uma visao mais clara sobre as alternativas." },
+          { name: "Pietra da Luz e Silva", date: "", rating: 5, image: "", text: "O processo foi conduzido com atencao e comunicacao simples." }
         ]
       },
       assets: {

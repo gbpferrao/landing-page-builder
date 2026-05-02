@@ -3,11 +3,13 @@ import { renderToStaticMarkup } from "react-dom/server";
 import LandingPage from "./LandingPage.jsx";
 import landingCss from "./landing-page.css?raw";
 import { buildTrackingHead, buildTrackingRuntime } from "./trackingSnippets.js";
+import { previewAsset } from "./previewUtils.js";
 
 export function exportHtml(project, options = {}) {
   const inlineCss = options.inlineCss ?? true;
   const markup = renderToStaticMarkup(<LandingPage project={project} />);
   const meta = project.site.meta || {};
+  const favicon = previewAsset(project.site.brand?.logo || "assets/defaults/logo.png");
   const trackingHead = buildTrackingHead(project);
   const trackingRuntime = buildTrackingRuntime(project);
 
@@ -18,6 +20,7 @@ export function exportHtml(project, options = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(meta.title || "")}</title>
   <meta name="description" content="${escapeAttribute(meta.description || "")}">
+  <link rel="icon" href="${escapeAttribute(favicon)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
